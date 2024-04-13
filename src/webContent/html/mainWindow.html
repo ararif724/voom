@@ -15,12 +15,12 @@
 		<script src="../js/mainWindow.js"></script>
 	</head>
 
-	<body data-window="mainWindow">
+	<body>
 		<div class="main-window">
 			<i class="fa-solid fa-xmark close-app"></i>
 
 			<div class="app-branding">
-				<img src="../img/screenwave-logo.png" alt="ScreenWave">
+				<img src="../img/screenwave-logo.png" alt="ScreenWave" />
 			</div>
 
 			<div class="recording-mode-selector-container">
@@ -55,6 +55,18 @@
 			<div class="start-record-btn">
 				<i class="record-icon"></i>
 				Start Recording
+			</div>
+
+			<div id="loader" class="popup static-backdrop">
+				<div class="popup-body">
+					<div class="loader"></div>
+				</div>
+			</div>
+
+			<div class="popup" id="video-url">
+				<div class="popup-body">
+					<textarea readonly></textarea>
+				</div>
 			</div>
 		</div>
 	</body>

@@ -1,3 +1,8 @@
+import {
+	getStream,
+	sendVideoToWeb,
+	getGoogleDriveResumableUploadUrl,
+} from "./recodingWindowHelper.js";
 $(function () {
 	startRecording();
 
@@ -42,14 +47,34 @@ $(function () {
 
 	async function startRecording() {
 		try {
-			let mainStream = null;
 			let recordedBlob = new Blob();
+			let retriedUpload = 0;
 			const recorderRequestDataInterval = 5000; //in milliseconds
 			const googleDriveUploadChunkSize = 262144; //in byte
+			const stream = await getStream();
+			const recorder = new MediaRecorder(stream, {
+				mimeType: "video/webm; codecs=vp9",
+			});
+
+			const recorderRequestDataIntervalId = setInterval(() => {
+				recorder.requestData();
+			}, recorderRequestDataInterval);
+
+			recorder.ondataavailable = (e) => {
+				recordedBlob = new Blob([recordedBlob, e.data]);
+			};
+
+			recorder.onstop = async (e) => {
+				clearInterval(recorderRequestDataIntervalId);
+			};
+
+			recorder.start();
+			startTimer();
 
 			$("#stop").click(function () {
 				if (recorder.state === "recording" || recorder.state === "paused") {
 					recorder.stop();
+					app.stopRecord(true);
 				}
 			});
 
@@ -69,51 +94,8 @@ $(function () {
 				}
 			});
 
-			if (app.config.recordingMode != "camera") {
-				mainStream = await navigator.mediaDevices.getUserMedia({
-					audio: false,
-					video: {
-						mandatory: {
-							chromeMediaSource: "desktop",
-							chromeMediaSourceId: app.config.screenRecordSourceId,
-						},
-					},
-				});
-			} else {
-				mainStream = await navigator.mediaDevices.getUserMedia({
-					audio: false,
-					video: {
-						deviceId: app.config.videoInDeviceId,
-					},
-				});
-			}
-
-			if (app.config.audioInDeviceId) {
-				//attach audio track to the screen stream
-				const audioStream = await navigator.mediaDevices.getUserMedia({
-					audio: {
-						deviceId: app.config.audioInDeviceId,
-					},
-					video: false,
-				});
-
-				mainStream.addTrack(audioStream.getAudioTracks()[0]);
-			}
-
-			const createResumableUploadResponse = await axios.post(
-				"https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable",
-				{
-					name: `screenwave-${Date.now()}.webm`,
-					mimeType: "video/webm; codecs=vp9",
-				},
-				{
-					headers: {
-						Authorization:
-							"Bearer ya29.a0AfB_byDvniEhRzhHImSy1v-DcrlCc7tbNtb2zFZJoyLhVtHYxeLm1i4wVAf0LGAwjNRZOElOgjlSREocJGOMIvmDSPNXlEw5VtDBPNge_NeSr7sThyvrEFMBEIK-jjJKvwS3q4ykSTWxAtdVUvj16POZVh3PMV58GGqcaCgYKAeQSARASFQHGX2Mi6XnGDPgpr7KJSG_dGLL0fA0171",
-						"Content-Type": "application/json",
-					},
-				}
-			);
+			const googleDriveResumableUploadUrl =
+				await getGoogleDriveResumableUploadUrl();
 
 			async function uploadToGoogleDrive(fromByte = 0) {
 				let toByte = fromByte + googleDriveUploadChunkSize;
@@ -137,15 +119,8 @@ $(function () {
 				try {
 					const blobChunkToUpload = recordedBlob.slice(fromByte, toByte);
 
-					console.log({
-						fromByte,
-						toByte,
-						blobChunkToUploadSize: blobChunkToUpload.size,
-						contentRange: `bytes ${fromByte}-${toByte - 1}/${totalByte}`,
-					});
-
 					const resp = await axios.put(
-						createResumableUploadResponse.headers.location,
+						googleDriveResumableUploadUrl,
 						blobChunkToUpload,
 						{
 							headers: {
@@ -154,33 +129,34 @@ $(function () {
 						}
 					);
 
-					console.log("resp1", resp);
+					if (typeof resp.data.id != "undefined") {
+						try {
+							const sendVideoToWebResponse = await sendVideoToWeb(resp.data.id);
+							if (
+								typeof sendVideoToWebResponse.data.data.videoUrl != "undefined"
+							) {
+								app.showVideoUrl(sendVideoToWebResponse.data.data.videoUrl);
+							}
+						} catch (err) {
+							console.log(err);
+						}
+					}
 				} catch (resp) {
-					console.log("resp2", resp);
-					uploadToGoogleDrive(
-						parseInt(resp.response.headers.range.split("-")[1]) + 1
-					);
+					if (resp.response.status == 308) {
+						retriedUpload = 0;
+						uploadToGoogleDrive(
+							parseInt(resp.response.headers.range.split("-")[1]) + 1
+						);
+					} else {
+						if (retriedUpload <= 5) {
+							uploadToGoogleDrive(fromByte);
+						} else {
+						}
+						retriedUpload++;
+					}
 				}
 			}
 
-			const recorder = new MediaRecorder(mainStream, {
-				mimeType: "video/webm; codecs=vp9",
-			});
-
-			const recorderRequestDataIntervalId = setInterval(() => {
-				recorder.requestData();
-			}, recorderRequestDataInterval);
-
-			recorder.ondataavailable = (e) => {
-				recordedBlob = new Blob([recordedBlob, e.data]);
-			};
-
-			recorder.onstop = async (e) => {
-				clearInterval(recorderRequestDataIntervalId);
-			};
-
-			recorder.start();
-			startTimer();
 			uploadToGoogleDrive();
 		} catch (e) {
 			console.log(e);

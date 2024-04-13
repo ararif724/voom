@@ -4,6 +4,7 @@ ipcRenderer.on("config", (event, config) => {
 	contextBridge.exposeInMainWorld("app", {
 		config: config,
 		enterDrawMode: () => ipcRenderer.invoke("canvasWindow:enterDrawMode"),
-		stopRecord: () => ipcRenderer.invoke("recording:stop"),
+		stopRecord: (showLoader) => ipcRenderer.invoke("recording:stop", showLoader),
+		showVideoUrl: (videoUrl) => ipcRenderer.invoke("recording:showVideoUrl", videoUrl),
 	});
 });

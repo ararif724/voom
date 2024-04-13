@@ -22,9 +22,18 @@ module.exports = function () {
 		}
 	);
 
-	ipcMain.handle("recording:stop", function (e) {
+	ipcMain.handle("recording:stop", function (e, showLoader = false) {
 		ipcMain.emit("mainWindow:open");
 		recordingWindow.hide();
+		if (showLoader) {
+			mainWindow.webContents.executeJavaScript("showLoader();");
+		}
+	});
+
+	ipcMain.handle("recording:showVideoUrl", function (e, videoUrl) {
+		mainWindow.webContents.executeJavaScript(
+			`hideLoader(); showVideoUrl('${videoUrl}');`
+		);
 	});
 
 	ipcMain.on("recordingWindow:open", function () {
@@ -51,15 +60,14 @@ module.exports = function () {
 
 		window.loadFile(cnf.webContentPath + "/html/recordingWindow.html");
 
-		window.webContents.openDevTools();
-
 		window.webContents.send("config", {
 			recordingMode: cnf.recordingMode,
 			screenRecordSourceId: cnf.screenRecordSourceId,
 			videoInDeviceId: cnf.videoInDeviceId,
 			audioInDeviceId: cnf.audioInDeviceId,
 			googleApiRefreshToken: cnf.googleApiRefreshToken,
-			screenwaveWebIdentityToken: cnf.screenwaveWebIdentityToken,
+			screenwaveWebApiToken: cnf.screenwaveWebApiToken,
+			screenwaveWebUrl,
 		});
 
 		window.on("move", function () {

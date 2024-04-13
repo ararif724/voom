@@ -32,7 +32,7 @@ body {
 	font-family: "LobsterTwo";
 }
 
-::selection {
+::selection:not(input):not(textarea) {
 	background: transparent;
 }
 
@@ -188,6 +188,65 @@ img {
 
 .start-record-btn:hover {
 	background-color: white;
+}
+
+.popup {
+	z-index: -1;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.popup.show {
+	z-index: 1;
+	visibility: visible;
+}
+.loader {
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	position: relative;
+}
+.loader::after,
+.loader::before {
+	content: "";
+	box-sizing: border-box;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border: 5px solid #fff;
+	position: absolute;
+	left: 0;
+	top: 0;
+	animation: animloader 2s linear infinite;
+}
+.loader::after {
+	animation-delay: 1s;
+}
+
+@keyframes animloader {
+	0% {
+		transform: scale(0);
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
+}
+#video-url textarea {
+	font-size: 20px;
+	padding: 10px;
+	outline: none;
+	width: 500px;
+	text-align: center;
+	resize: none;
 }
 
 /*

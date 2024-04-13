@@ -54,4 +54,25 @@ $(function () {
 			}
 		}
 	}
+
+	$(".popup").click(function (e) {
+		if (
+			e.target.classList.contains("popup") &&
+			!e.target.classList.contains("static-backdrop")
+		) {
+			$(this).removeClass("show");
+		}
+	});
 });
+
+function showLoader() {
+	$("#loader").addClass("show");
+}
+function hideLoader() {
+	$("#loader").removeClass("show");
+}
+function showVideoUrl(url) {
+	$("#video-url").addClass("show");
+	$("#video-url textarea").val(url).select();
+	navigator.clipboard.writeText(url);
+}
