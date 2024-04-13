@@ -21,11 +21,12 @@ async function connectToGoogleDrive() {
 		const apiInfo = JSON.parse(queryData.data);
 		cnf = { ...cnf, ...apiInfo };
 		setCnfMulti(cnf);
+		mainWindow.focus();
 	});
 
 	await electronAppUniversalProtocolClient.initialize({
 		protocol: "ararif-screenwave",
-		mode: "development", // Make sure to use 'production' when script is executed in bundled app
+		mode: "production", // Make sure to use 'production' when script is executed in bundled app
 	});
 }
 
