@@ -6,6 +6,13 @@ module.exports = function () {
 	ipcMain.handle(
 		"recording:start",
 		async function (event, recordingMode, videoInDeviceId, audioInDeviceId) {
+			if (
+				typeof cnf.googleApiRefreshToken == "undefined" ||
+				typeof cnf.screenwaveWebApiToken == "undefined"
+			) {
+				return mainWindow.webContents.executeJavaScript('showSignIn();');
+			}
+
 			cnf.recordingMode = recordingMode;
 			cnf.videoInDeviceId = videoInDeviceId;
 			cnf.audioInDeviceId = audioInDeviceId;
@@ -54,11 +61,11 @@ module.exports = function () {
 			resizable: false,
 			alwaysOnTop: true,
 			webPreferences: {
-				preload: cnf.preloadScriptPath + "/recordingWindowPreload.js",
+				preload: preloadScriptPath + "/recordingWindowPreload.js",
 			},
 		});
 
-		window.loadFile(cnf.webContentPath + "/html/recordingWindow.html");
+		window.loadFile(webContentPath + "/html/recordingWindow.html");
 
 		window.webContents.send("config", {
 			recordingMode: cnf.recordingMode,

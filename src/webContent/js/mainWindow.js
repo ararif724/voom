@@ -1,6 +1,12 @@
 $(function () {
 	loadMediaDevices();
 
+	$("#sign-in-btn").click(function () {
+		$("#sign-in-promt").removeClass("show");
+		showLoader();
+		app.signIn();
+	});
+
 	$(".close-app").click(() => app.close());
 
 	$(".recording-mode-select").click(function () {
@@ -75,4 +81,11 @@ function showVideoUrl(url) {
 	$("#video-url").addClass("show");
 	$("#video-url textarea").val(url).select();
 	navigator.clipboard.writeText(url);
+}
+function showError(message) {
+	$("#error .error-message").html(message);
+	$("#error").addClass("show");
+}
+function showSignIn(){
+	$("#sign-in-promt").addClass("show");
 }

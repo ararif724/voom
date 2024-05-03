@@ -11,10 +11,6 @@ const canvasWindowController = require("./controller/canvasWindowController");
 userCnf = getAllCnf();
 
 global.cnf = {
-	controllerPath: path.join(__dirname, "/controller"),
-	preloadScriptPath: path.join(__dirname, "/preloadScript"),
-	webContentPath: path.join(__dirname, "/webContent"),
-	recordingSavingPath: app.getPath("home") + "/screen wave",
 	recordingMode: "screenCamera",
 	videoInDeviceId: null,
 	audioInDeviceId: null,
@@ -24,6 +20,8 @@ global.cnf = {
 };
 
 global.screenwaveWebUrl = "http://127.0.0.1:8000";
+global.preloadScriptPath = path.join(__dirname, "/preloadScript");
+global.webContentPath = path.join(__dirname, "/webContent");
 
 //loading controllers
 mainWindowController();
@@ -49,10 +47,6 @@ app.whenReady().then(() => {
 	cnf.displaySize = screen.getPrimaryDisplay().bounds;
 
 	ipcMain.emit("mainWindow:open");
-
-	if (typeof cnf.googleApiRefreshToken == "undefined") {
-		connectToGoogleDrive();
-	}
 });
 
 app.on("window-all-closed", () => {

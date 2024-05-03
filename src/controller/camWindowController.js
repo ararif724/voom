@@ -32,11 +32,11 @@ module.exports = function () {
 				transparent: true,
 				resizable: false,
 				webPreferences: {
-					preload: cnf.preloadScriptPath + "/camWindowPreload.js",
+					preload: preloadScriptPath + "/camWindowPreload.js",
 				},
 			});
 
-			window.loadFile(cnf.webContentPath + "/html/camWindow.html");
+			window.loadFile(webContentPath + "/html/camWindow.html");
 
 			window.webContents.send("config", {
 				recordingMode: cnf.recordingMode,

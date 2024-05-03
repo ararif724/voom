@@ -19,11 +19,11 @@ module.exports = function () {
 			alwaysOnTop: true,
 			minimizable: false,
 			webPreferences: {
-				preload: cnf.preloadScriptPath + "/canvasWindowPreload.js",
+				preload: preloadScriptPath + "/canvasWindowPreload.js",
 			},
 		});
 
-		window.loadFile(cnf.webContentPath + "/html/canvasWindow.html");
+		window.loadFile(webContentPath + "/html/canvasWindow.html");
 
 		window.on("close", function () {
 			quitApp();
