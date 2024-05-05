@@ -1,11 +1,16 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const log = require("electron-log/main");
 const path = require("path");
 const { getAllCnf } = require("electron-cnf");
-const { quitApp, connectToGoogleDrive } = require("./helper");
+const { quitApp } = require("./helper");
 const mainWindowController = require("./controller/mainWindowController");
 const camWindowController = require("./controller/camWindowController");
 const recordingWindowController = require("./controller/recordingWindowController");
 const canvasWindowController = require("./controller/canvasWindowController");
+
+global.log = log;
+log.initialize();
+log.info("App running");
 
 //setting variables
 userCnf = getAllCnf();
@@ -45,6 +50,8 @@ ipcMain.handle("app:getAudioInDeviceId", () => cnf.audioInDeviceId);
 app.whenReady().then(() => {
 	const { screen } = require("electron");
 	cnf.displaySize = screen.getPrimaryDisplay().bounds;
+
+	log.info("App ready");
 
 	ipcMain.emit("mainWindow:open");
 });

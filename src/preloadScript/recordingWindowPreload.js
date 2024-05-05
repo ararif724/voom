@@ -5,6 +5,7 @@ ipcRenderer.on("config", (event, config) => {
 		config: config,
 		enterDrawMode: () => ipcRenderer.invoke("canvasWindow:enterDrawMode"),
 		stopRecord: (showLoader) => ipcRenderer.invoke("recording:stop", showLoader),
+		showError: (message) => ipcRenderer.invoke("mainWindow:showError", message),
 		showVideoUrl: (videoUrl) => ipcRenderer.invoke("recording:showVideoUrl", videoUrl),
 	});
 });

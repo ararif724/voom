@@ -32,7 +32,7 @@ body {
 	font-family: "LobsterTwo";
 }
 
-::selection:not(input):not(textarea) {
+::selection:not(input):not(textarea):not(.error-message) {
 	background: transparent;
 }
 

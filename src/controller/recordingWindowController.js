@@ -10,7 +10,7 @@ module.exports = function () {
 				typeof cnf.googleApiRefreshToken == "undefined" ||
 				typeof cnf.screenwaveWebApiToken == "undefined"
 			) {
-				return mainWindow.webContents.executeJavaScript('showSignIn();');
+				return mainWindow.webContents.executeJavaScript("showSignIn();");
 			}
 
 			cnf.recordingMode = recordingMode;
@@ -31,9 +31,11 @@ module.exports = function () {
 
 	ipcMain.handle("recording:stop", function (e, showLoader = false) {
 		ipcMain.emit("mainWindow:open");
-		recordingWindow.hide();
 		if (showLoader) {
+			recordingWindow.hide();
 			mainWindow.webContents.executeJavaScript("showLoader();");
+		} else {
+			recordingWindow.destroy();
 		}
 	});
 
@@ -41,6 +43,7 @@ module.exports = function () {
 		mainWindow.webContents.executeJavaScript(
 			`hideLoader(); showVideoUrl('${videoUrl}');`
 		);
+		recordingWindow.destroy();
 	});
 
 	ipcMain.on("recordingWindow:open", function () {

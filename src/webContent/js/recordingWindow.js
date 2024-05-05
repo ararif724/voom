@@ -19,8 +19,6 @@ $(function () {
 		}
 	});
 
-	$("#delete").click(() => app.stopRecord());
-
 	let timeRecorded = 0; //in seconds
 	let timeRecordedIntervalId = null;
 
@@ -43,6 +41,20 @@ $(function () {
 
 	function stopTimer() {
 		clearInterval(timeRecordedIntervalId);
+	}
+
+	function stopRecordWithError(logData = null, showErrorText = null) {
+		app.stopRecord();
+		if (logData !== null) {
+			if (typeof logData == "object") {
+				__electronLog.info(...logData);
+			} else {
+				__electronLog.info(logData);
+			}
+		}
+		if (showErrorText !== null) {
+			app.showError(showErrorText);
+		}
 	}
 
 	async function startRecording() {
@@ -71,12 +83,15 @@ $(function () {
 			recorder.start();
 			startTimer();
 
-			$("#stop").click(function () {
+			function stopRecord(showLoader) {
 				if (recorder.state === "recording" || recorder.state === "paused") {
 					recorder.stop();
-					app.stopRecord(true);
+					app.stopRecord(showLoader);
 				}
-			});
+			}
+
+			$("#stop").click(() => stopRecord(true));
+			$("#delete").click(() => stopRecord());
 
 			$("#pauseResume").click(function () {
 				if (recorder.state === "recording") {
@@ -136,13 +151,26 @@ $(function () {
 								typeof sendVideoToWebResponse.data.data.videoUrl != "undefined"
 							) {
 								app.showVideoUrl(sendVideoToWebResponse.data.data.videoUrl);
+							} else {
+								stopRecordWithError(
+									["screenwave web error:", sendVideoToWebResponse?.data],
+									"Video uploaded to google drive successfully but unable to generate web link. <br> You may share the video directly from google drive."
+								);
 							}
 						} catch (err) {
-							console.log(err);
+							stopRecordWithError(
+								["screenwave web error:", err?.response?.data || err?.message],
+								"Video uploaded to google drive successfully but unable to generate web link. <br> You may share the video directly from google drive."
+							);
 						}
+					} else {
+						stopRecordWithError(
+							["Google drive upload finish error:", resp?.data],
+							"An unexpected error occurred"
+						);
 					}
 				} catch (resp) {
-					if (resp.response.status == 308) {
+					if (resp?.response?.status == 308) {
 						retriedUpload = 0;
 						uploadToGoogleDrive(
 							parseInt(resp.response.headers.range.split("-")[1]) + 1
@@ -151,6 +179,10 @@ $(function () {
 						if (retriedUpload <= 5) {
 							uploadToGoogleDrive(fromByte);
 						} else {
+							stopRecordWithError(
+								["Google drive error:", resp?.response?.data || resp?.message],
+								"An unexpected error occurred"
+							);
 						}
 						retriedUpload++;
 					}
@@ -158,9 +190,14 @@ $(function () {
 			}
 
 			uploadToGoogleDrive();
-		} catch (e) {
-			console.log(e);
-			//app.stopRecord();
+		} catch (error) {
+			stopRecordWithError(
+				[
+					"Recording window error: ",
+					error?.response?.data || error?.message || JSON.stringify(error),
+				],
+				"An unexpected error occurred"
+			);
 		}
 	}
 });
