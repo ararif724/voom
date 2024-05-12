@@ -29,15 +29,22 @@ module.exports = function () {
 		}
 	);
 
-	ipcMain.handle("recording:stop", function (e, showLoader = false) {
-		ipcMain.emit("mainWindow:open");
-		if (showLoader) {
-			recordingWindow.hide();
-			mainWindow.webContents.executeJavaScript("showLoader();");
-		} else {
-			recordingWindow.destroy();
+	ipcMain.handle(
+		"recording:stop",
+		function (e, showLoader = false, showSignIn = false) {
+			ipcMain.emit("mainWindow:open");
+			if (showSignIn) {
+				mainWindow.webContents.executeJavaScript("showSignIn();");
+			}
+
+			if (showLoader) {
+				recordingWindow.hide();
+				mainWindow.webContents.executeJavaScript("showLoader();");
+			} else {
+				recordingWindow.destroy();
+			}
 		}
-	});
+	);
 
 	ipcMain.handle("recording:showVideoUrl", function (e, videoUrl) {
 		mainWindow.webContents.executeJavaScript(

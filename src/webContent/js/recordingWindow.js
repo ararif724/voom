@@ -43,8 +43,12 @@ $(function () {
 		clearInterval(timeRecordedIntervalId);
 	}
 
-	function stopRecordWithError(logData = null, showErrorText = null) {
-		app.stopRecord();
+	function stopRecordWithError(
+		logData = null,
+		showErrorText = null,
+		showSignIn = false
+	) {
+		app.stopRecord(false, showSignIn);
 		if (logData !== null) {
 			if (typeof logData == "object") {
 				__electronLog.info(...logData);
@@ -52,7 +56,7 @@ $(function () {
 				__electronLog.info(logData);
 			}
 		}
-		if (showErrorText !== null) {
+		if (showErrorText !== null && !showSignIn) {
 			app.showError(showErrorText);
 		}
 	}
@@ -196,7 +200,8 @@ $(function () {
 					"Recording window error: ",
 					error?.response?.data || error?.message || JSON.stringify(error),
 				],
-				"An unexpected error occurred"
+				"An unexpected error occurred",
+				error?.response?.status === 401
 			);
 		}
 	}
