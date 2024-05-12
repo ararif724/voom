@@ -47,6 +47,7 @@ module.exports = function () {
 	);
 
 	ipcMain.handle("recording:showVideoUrl", function (e, videoUrl) {
+		mainWindow.focus();
 		mainWindow.webContents.executeJavaScript(
 			`hideLoader(); showVideoUrl('${videoUrl}');`
 		);
