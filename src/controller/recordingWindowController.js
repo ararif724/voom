@@ -36,6 +36,10 @@ module.exports = function () {
 			if (showSignIn) {
 				mainWindow.webContents.executeJavaScript("showSignIn();");
 			}
+			
+			if(typeof camWindow != 'undefined'){
+				camWindow.close();
+			}
 
 			if (showLoader) {
 				recordingWindow.hide();
