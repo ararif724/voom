@@ -157,13 +157,13 @@ $(function () {
 								app.showVideoUrl(sendVideoToWebResponse.data.data.videoUrl);
 							} else {
 								stopRecordWithError(
-									["screenwave web error:", sendVideoToWebResponse?.data],
+									["atrec web error:", sendVideoToWebResponse?.data],
 									"Video uploaded to google drive successfully but unable to generate web link. <br> You may share the video directly from google drive."
 								);
 							}
 						} catch (err) {
 							stopRecordWithError(
-								["screenwave web error:", err?.response?.data || err?.message],
+								["atrec web error:", err?.response?.data || err?.message],
 								"Video uploaded to google drive successfully but unable to generate web link. <br> You may share the video directly from google drive."
 							);
 						}

@@ -8,7 +8,7 @@ module.exports = function () {
 		async function (event, recordingMode, videoInDeviceId, audioInDeviceId) {
 			if (
 				typeof cnf.googleApiRefreshToken == "undefined" ||
-				typeof cnf.screenwaveWebApiToken == "undefined"
+				typeof cnf.atrecWebApiToken == "undefined"
 			) {
 				return mainWindow.webContents.executeJavaScript("showSignIn();");
 			}
@@ -88,8 +88,8 @@ module.exports = function () {
 			videoInDeviceId: cnf.videoInDeviceId,
 			audioInDeviceId: cnf.audioInDeviceId,
 			googleApiRefreshToken: cnf.googleApiRefreshToken,
-			screenwaveWebApiToken: cnf.screenwaveWebApiToken,
-			screenwaveWebUrl,
+			atrecWebApiToken: cnf.atrecWebApiToken,
+			atrecWebUrl,
 		});
 
 		window.on("move", function () {

@@ -40,13 +40,13 @@ async function getStream() {
 async function getGoogleApiAuthToken() {
 	if (googleAPIAuthToken == null) {
 		const getAuthTokenResponse = await axios.post(
-			app.config.screenwaveWebUrl + "/api/generate-google-api-auth-token",
+			app.config.atrecWebUrl + "/api/generate-google-api-auth-token",
 			{
 				refreshToken: app.config.googleApiRefreshToken,
 			},
 			{
 				headers: {
-					apiToken: app.config.screenwaveWebApiToken,
+					apiToken: app.config.atrecWebApiToken,
 				},
 			}
 		);
@@ -69,7 +69,7 @@ async function getGoogleDriveResumableUploadUrl() {
 	const authToken = await getGoogleApiAuthToken();
 
 	const getUploadFolderResponse = await axios.get(
-		"https://www.googleapis.com/drive/v3/files?q=name%20%3D%20'screenwave'%20and%20mimeType%20%3D%20'application%2Fvnd.google-apps.folder'",
+		"https://www.googleapis.com/drive/v3/files?q=name%20%3D%20'atrec'%20and%20mimeType%20%3D%20'application%2Fvnd.google-apps.folder'",
 		{
 			headers: {
 				Authorization: "Bearer " + authToken,
@@ -84,7 +84,7 @@ async function getGoogleDriveResumableUploadUrl() {
 		const createUploadFolderResponse = await axios.post(
 			"https://www.googleapis.com/drive/v3/files",
 			{
-				name: "screenwave",
+				name: "atrec",
 				mimeType: "application/vnd.google-apps.folder",
 			},
 			{
@@ -105,7 +105,7 @@ async function getGoogleDriveResumableUploadUrl() {
 	const createResumableUploadResponse = await axios.post(
 		"https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable",
 		{
-			name: `screenwave-${Date.now()}.webm`,
+			name: `atrec-${Date.now()}.webm`,
 			mimeType: "video/webm; codecs=vp9",
 			parents: [uploadFolderId],
 		},
@@ -142,14 +142,14 @@ async function sendVideoToWeb(videoId) {
 	);
 
 	const sendVideoToWeb = await axios.post(
-		app.config.screenwaveWebUrl + "/api/save-video",
+		app.config.atrecWebUrl + "/api/save-video",
 		{
 			refreshToken: app.config.googleApiRefreshToken,
 			videoId: videoId,
 		},
 		{
 			headers: {
-				apiToken: app.config.screenwaveWebApiToken,
+				apiToken: app.config.atrecWebApiToken,
 			},
 		}
 	);

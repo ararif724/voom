@@ -1,6 +1,6 @@
 {
-  "name": "screenwave",
-  "productName": "screenwave",
+  "name": "atrec",
+  "productName": "atrec",
   "version": "1.0.0",
   "description": "Open source screen recorder",
   "main": "src/app.js",
@@ -33,10 +33,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ararif724/ScreenWave.git"
+    "url": "git+https://github.com/ararif724/atrec.git"
   },
   "bugs": {
-    "url": "https://github.com/ararif724/ScreenWave/issues"
+    "url": "https://github.com/ararif724/atrec/issues"
   },
-  "homepage": "https://github.com/ararif724/ScreenWave#readme"
+  "homepage": "https://github.com/ararif724/atrec#readme"
 }

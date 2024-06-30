@@ -37,7 +37,7 @@ module.exports = function () {
 		log.info("Signing in");
 
 		axios
-			.get(screenwaveWebUrl + "/get-session-id")
+			.get(atrecWebUrl + "/get-session-id")
 			.then((resp) => {
 				if (typeof resp.data.data.sessionId != "undefined") {
 					const cookies = resp.headers["set-cookie"].map(
@@ -45,7 +45,7 @@ module.exports = function () {
 					);
 					const sessionId = resp.data.data.sessionId;
 
-					shell.openExternal(screenwaveWebUrl + "/google-o-auth/" + sessionId);
+					shell.openExternal(atrecWebUrl + "/google-o-auth/" + sessionId);
 
 					let totalCheckForSessionData = 0;
 					const intervalId = setInterval(() => {
@@ -58,7 +58,7 @@ module.exports = function () {
 							return;
 						}
 						axios
-							.get(screenwaveWebUrl + "/get-session-data/" + sessionId, {
+							.get(atrecWebUrl + "/get-session-data/" + sessionId, {
 								headers: {
 									Cookie: cookies,
 								},
@@ -71,7 +71,7 @@ module.exports = function () {
 								) {
 									clearInterval(intervalId);
 
-									cnf.screenwaveWebApiToken = resp.data.data.apiToken;
+									cnf.atrecWebApiToken = resp.data.data.apiToken;
 									cnf.googleApiRefreshToken = resp.data.data.refreshToken;
 									setCnfMulti(cnf);
 

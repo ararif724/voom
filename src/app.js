@@ -24,7 +24,7 @@ global.cnf = {
 	...userCnf,
 };
 
-global.screenwaveWebUrl = "http://127.0.0.1:8000";
+global.atrecWebUrl = cnf?.atrecWebUrl ? cnf?.atrecWebUrl : "https://www.atrec.app";
 global.preloadScriptPath = path.join(__dirname, "/preloadScript");
 global.webContentPath = path.join(__dirname, "/webContent");
 
