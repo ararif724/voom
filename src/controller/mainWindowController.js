@@ -11,7 +11,7 @@ module.exports = function () {
 				frame: false,
 				transparent: true,
 				width: 770,
-				height: 635,
+				height: 650,
 				fullscreenable: false,
 				resizable: false,
 				webPreferences: {
