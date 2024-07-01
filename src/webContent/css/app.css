@@ -86,12 +86,12 @@ img {
 	font-size: 30px;
 	font-weight: bolder;
 	text-align: center;
-	margin: 30px 0;
+	margin-bottom: 23px;
 	color: white;
 	-webkit-app-region: drag;
 }
 .app-branding img {
-	width: 350px;
+	width: 330px;
 	filter: drop-shadow(2px 4px 6px black);
 }
 
@@ -372,8 +372,8 @@ img {
 
 .sponsored-text {
 	margin: 18px auto;
-    font-size: 18px;
-    width: fit-content;
+	font-size: 18px;
+	width: fit-content;
 }
 
 /*
