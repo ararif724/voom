@@ -93,6 +93,7 @@ img {
 .app-branding img {
 	width: 330px;
 	filter: drop-shadow(2px 4px 6px black);
+	-webkit-app-region: drag;
 }
 
 .recording-mode-selector-container {
