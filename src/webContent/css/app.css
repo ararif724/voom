@@ -85,15 +85,12 @@ img {
 }
 
 .app-branding {
-	font-size: 30px;
-	font-weight: bolder;
-	text-align: center;
-	margin-bottom: 23px;
-	color: white;
-	-webkit-app-region: drag;
+	margin: auto;
+    margin-bottom: 23px;
+    width: 330px;
 }
 .app-branding img {
-	width: 330px;
+	width: 100%;
 	filter: drop-shadow(2px 4px 6px black);
 	-webkit-app-region: drag;
 }
