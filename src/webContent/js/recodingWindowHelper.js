@@ -124,11 +124,11 @@ async function getGoogleDriveResumableUploadUrl() {
 	return createResumableUploadResponse.headers.location;
 }
 
-async function sendVideoToWeb(videoId) {
+async function sendVideoToWeb(googleDriveVideoId) {
 	const authToken = await getGoogleApiAuthToken();
 
 	await axios.post(
-		`https://www.googleapis.com/drive/v3/files/${videoId}/permissions`,
+		`https://www.googleapis.com/drive/v3/files/${googleDriveVideoId}/permissions`,
 		{
 			type: "anyone",
 			role: "reader",
@@ -145,7 +145,7 @@ async function sendVideoToWeb(videoId) {
 		app.config.atrecWebUrl + "/api/save-video",
 		{
 			refreshToken: app.config.googleApiRefreshToken,
-			videoId: videoId,
+			googleDriveVideoId: googleDriveVideoId,
 		},
 		{
 			headers: {
