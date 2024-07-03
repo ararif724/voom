@@ -37,7 +37,7 @@ module.exports = function () {
 		log.info("Signing in");
 
 		axios
-			.get(atrecWebUrl + "/get-session-id")
+			.get(atrecWebUrl + "/api/get-session-id")
 			.then((resp) => {
 				if (typeof resp.data.data.sessionId != "undefined") {
 					const cookies = resp.headers["set-cookie"].map(
@@ -58,7 +58,7 @@ module.exports = function () {
 							return;
 						}
 						axios
-							.get(atrecWebUrl + "/get-session-data/" + sessionId, {
+							.get(atrecWebUrl + "/api/get-session-data/" + sessionId, {
 								headers: {
 									Cookie: cookies,
 								},
