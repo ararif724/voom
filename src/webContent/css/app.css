@@ -243,21 +243,23 @@ img {
 
 #error .error-message {
 	background: white;
-	font-family: serif;
-	padding: 10px;
-	border-radius: 5px;
-	font-size: 18px;
-	color: red;
-	text-align: center;
+    font-family: serif;
+    padding: 50px;
+    margin: 50px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: red;
+    text-align: center;
 }
 
 #video-url textarea {
 	font-size: 20px;
-	padding: 10px;
-	outline: none;
-	width: 500px;
-	text-align: center;
-	resize: none;
+    padding: 50px;
+    margin: 50px;
+    outline: none;
+    width: 500px;
+    text-align: center;
+    resize: none;
 }
 
 .gsi-material-button {

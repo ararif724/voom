@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const log = require("electron-log/main");
 const path = require("path");
 const { getAllCnf } = require("electron-cnf");
-const { quitApp } = require("./helper");
+const { quitApp, signIn } = require("./helper");
 const mainWindowController = require("./controller/mainWindowController");
 const camWindowController = require("./controller/camWindowController");
 const recordingWindowController = require("./controller/recordingWindowController");
@@ -24,7 +24,9 @@ global.cnf = {
 	...userCnf,
 };
 
-global.atrecWebUrl = cnf?.atrecWebUrl ? cnf?.atrecWebUrl : "https://www.atrec.app";
+global.atrecWebUrl = cnf?.atrecWebUrl
+	? cnf?.atrecWebUrl
+	: "https://www.atrec.app";
 global.preloadScriptPath = path.join(__dirname, "/preloadScript");
 global.webContentPath = path.join(__dirname, "/webContent");
 
@@ -38,11 +40,9 @@ if (!app.requestSingleInstanceLock()) {
 	app.exit(0);
 }
 
-//root events
-ipcMain.handle("app:close", () => {
-	quitApp();
-});
-
+//app event handlers
+ipcMain.handle("app:close", quitApp);
+ipcMain.handle("app:signIn", signIn);
 ipcMain.handle("app:getRecordingMode", () => cnf.recordingMode);
 ipcMain.handle("app:getVideoInDeviceId", () => cnf.videoInDeviceId);
 ipcMain.handle("app:getAudioInDeviceId", () => cnf.audioInDeviceId);
