@@ -7,6 +7,16 @@ function quitApp() {
 	app.quit();
 }
 
+function openInBrowser(url) {
+	log.info("Opening url in browser", url);
+
+	if (["https:", "http:"].includes(new URL(url).protocol)) {
+		shell.openExternal(url);
+	} else {
+		log.info("Unsupported url scheme");
+	}
+}
+
 function signIn() {
 	log.info("Signing in");
 
@@ -19,7 +29,7 @@ function signIn() {
 				);
 				const sessionId = resp.data.data.sessionId;
 
-				shell.openExternal(atrecWebUrl + "/google-o-auth/" + sessionId);
+				openInBrowser(atrecWebUrl + "/google-o-auth/" + sessionId);
 
 				let totalCheckForSessionData = 0;
 				const intervalId = setInterval(() => {
@@ -75,4 +85,4 @@ function signIn() {
 		});
 }
 
-module.exports = { quitApp, signIn };
+module.exports = { quitApp, openInBrowser, signIn };

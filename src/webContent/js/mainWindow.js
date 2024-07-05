@@ -1,6 +1,11 @@
 $(function () {
 	loadMediaDevices();
 
+	$(".sponsored-text a").click(function (e) {
+		e.preventDefault();
+		app.openInBrowser($(this).attr("href"));
+	});
+
 	$("#sign-in-btn").click(function () {
 		$("#sign-in-promt").removeClass("show");
 		showLoader();
@@ -86,6 +91,6 @@ function showError(message) {
 	$("#error .error-message").html(message);
 	$("#error").addClass("show");
 }
-function showSignIn(){
+function showSignIn() {
 	$("#sign-in-promt").addClass("show");
 }

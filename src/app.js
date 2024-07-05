@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const log = require("electron-log/main");
 const path = require("path");
 const { getAllCnf } = require("electron-cnf");
-const { quitApp, signIn } = require("./helper");
+const { quitApp, signIn, openInBrowser } = require("./helper");
 const mainWindowController = require("./controller/mainWindowController");
 const camWindowController = require("./controller/camWindowController");
 const recordingWindowController = require("./controller/recordingWindowController");
@@ -43,6 +43,7 @@ if (!app.requestSingleInstanceLock()) {
 //app event handlers
 ipcMain.handle("app:close", quitApp);
 ipcMain.handle("app:signIn", signIn);
+ipcMain.handle("app:openInBrowser", (e, url) => openInBrowser(url));
 ipcMain.handle("app:getRecordingMode", () => cnf.recordingMode);
 ipcMain.handle("app:getVideoInDeviceId", () => cnf.videoInDeviceId);
 ipcMain.handle("app:getAudioInDeviceId", () => cnf.audioInDeviceId);
