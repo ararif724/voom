@@ -24,9 +24,7 @@ function signIn() {
 		.get(atrecWebUrl + "/api/get-session-id")
 		.then((resp) => {
 			if (typeof resp.data.data.sessionId != "undefined") {
-				const cookies = resp.headers["set-cookie"].map(
-					(item) => item.split(";")[0]
-				);
+				const cookies = resp.headers["set-cookie"].map((item) => item.split(";")[0]);
 				const sessionId = resp.data.data.sessionId;
 
 				openInBrowser(atrecWebUrl + "/google-o-auth/" + sessionId);
@@ -36,9 +34,7 @@ function signIn() {
 					if (totalCheckForSessionData++ >= 30) {
 						clearInterval(intervalId);
 						log.info("Sign-in session timeout");
-						mainWindow.webContents.executeJavaScript(
-							'hideLoader(); showError("Sign-in session timeout! Please try again.")'
-						);
+						mainWindow.webContents.executeJavaScript('hideLoader(); showError("Sign-in session timeout! Please try again.")');
 						return;
 					}
 					axios
@@ -49,10 +45,7 @@ function signIn() {
 						})
 						.then((resp) => {
 							log.info("Get session data resp:", resp.data);
-							if (
-								resp?.data?.data?.apiToken &&
-								resp?.data?.data?.refreshToken
-							) {
+							if (resp?.data?.data?.apiToken && resp?.data?.data?.refreshToken) {
 								clearInterval(intervalId);
 
 								cnf.atrecWebApiToken = resp.data.data.apiToken;
@@ -64,10 +57,7 @@ function signIn() {
 							}
 						})
 						.catch((error) => {
-							log.info(
-								"Get session data resp:",
-								error?.response?.data || error?.message
-							);
+							log.info("Get session data resp:", error?.response?.data || error?.message);
 						});
 				}, 5000);
 			} else {

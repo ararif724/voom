@@ -3,65 +3,53 @@ const { BrowserWindow, ipcMain, desktopCapturer } = require("electron");
 module.exports = function () {
 	const recordingControlPanelSize = { width: 300, height: 60 };
 
-	ipcMain.handle(
-		"recording:start",
-		async function (event, recordingMode, videoInDeviceId, audioInDeviceId) {
-			if (
-				typeof cnf.googleApiRefreshToken == "undefined" ||
-				typeof cnf.atrecWebApiToken == "undefined"
-			) {
-				return mainWindow.webContents.executeJavaScript("showSignIn();");
-			}
-
-			cnf.recordingMode = recordingMode;
-			cnf.videoInDeviceId = videoInDeviceId;
-			cnf.audioInDeviceId = audioInDeviceId;
-
-			if (cnf.recordingMode != "camera") {
-				const screenRecordSource = await desktopCapturer.getSources({
-					types: ["screen"],
-				});
-				cnf.screenRecordSourceId = screenRecordSource[0].id;
-			}
-
-			ipcMain.emit("recordingWindow:open");
-			mainWindow.close();
+	ipcMain.handle("recording:start", async function (event, recordingMode, videoInDeviceId, audioInDeviceId) {
+		if (typeof cnf.googleApiRefreshToken == "undefined" || typeof cnf.atrecWebApiToken == "undefined") {
+			return mainWindow.webContents.executeJavaScript("showSignIn();");
 		}
-	);
 
-	ipcMain.handle(
-		"recording:stop",
-		function (e, showLoader = false, showSignIn = false) {
-			ipcMain.emit("mainWindow:open");
-			if (showSignIn) {
-				mainWindow.webContents.executeJavaScript("showSignIn();");
-			}
-			
-			if(typeof camWindow != 'undefined'){
-				camWindow.close();
-			}
+		cnf.recordingMode = recordingMode;
+		cnf.videoInDeviceId = videoInDeviceId;
+		cnf.audioInDeviceId = audioInDeviceId;
 
-			if (showLoader) {
-				recordingWindow.hide();
-				mainWindow.webContents.executeJavaScript("showLoader();");
-			} else {
-				recordingWindow.destroy();
-			}
+		if (cnf.recordingMode != "camera") {
+			const screenRecordSource = await desktopCapturer.getSources({
+				types: ["screen"],
+			});
+			cnf.screenRecordSourceId = screenRecordSource[0].id;
 		}
-	);
+
+		ipcMain.emit("recordingWindow:open");
+		mainWindow.close();
+	});
+
+	ipcMain.handle("recording:stop", function (e, showLoader = false, showSignIn = false) {
+		ipcMain.emit("mainWindow:open");
+		if (showSignIn) {
+			mainWindow.webContents.executeJavaScript("showSignIn();");
+		}
+
+		if (typeof camWindow != "undefined") {
+			camWindow.close();
+		}
+
+		if (showLoader) {
+			recordingWindow.hide();
+			mainWindow.webContents.executeJavaScript("showLoader();");
+		} else {
+			recordingWindow.destroy();
+		}
+	});
 
 	ipcMain.handle("recording:showVideoUrl", function (e, videoUrl) {
 		mainWindow.focus();
-		mainWindow.webContents.executeJavaScript(
-			`hideLoader(); showVideoUrl('${videoUrl}');`
-		);
+		mainWindow.webContents.executeJavaScript(`hideLoader(); showVideoUrl('${videoUrl}');`);
 		recordingWindow.destroy();
 	});
 
 	ipcMain.on("recordingWindow:open", function () {
 		if (cnf.recordingWindowPosition.x == null) {
-			cnf.recordingWindowPosition.x =
-				(cnf.displaySize.width - recordingControlPanelSize.width) / 2;
+			cnf.recordingWindowPosition.x = (cnf.displaySize.width - recordingControlPanelSize.width) / 2;
 			cnf.recordingWindowPosition.y = cnf.displaySize.height - 200;
 		}
 

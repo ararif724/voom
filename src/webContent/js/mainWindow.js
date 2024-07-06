@@ -1,7 +1,16 @@
+document.head.insertAdjacentHTML(
+	"beforeend",
+	`<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src ${app.config.atrecWebUrl}" />`
+);
+document.head.insertAdjacentHTML(
+	"beforeend",
+	`<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src ${app.config.atrecWebUrl}" />`
+);
+
 $(function () {
 	loadMediaDevices();
 
-	$(".sponsored-text a").click(function (e) {
+	$(".sponsor-text").on("click", "a", function (e) {
 		e.preventDefault();
 		app.openInBrowser($(this).attr("href"));
 	});
@@ -22,23 +31,16 @@ $(function () {
 	$("#cam-select select, #mic-select select").focus(loadMediaDevices);
 
 	$(".start-record-btn").click(async () => {
-		const recordingMode = $(".recording-mode-select.active").data(
-			"recording-mode"
-		);
+		const recordingMode = $(".recording-mode-select.active").data("recording-mode");
 		const videoInDeviceId = $("#cam-select select").val();
 		const audioInDeviceId = $("#mic-select select").val();
 
 		app.startRecording(recordingMode, videoInDeviceId, audioInDeviceId);
 	});
 
-	app.getRecordingMode().then((recordingMode) => {
-		$(`.recording-mode-select[data-recording-mode=${recordingMode}]`).click();
-	});
+	$(`.recording-mode-select[data-recording-mode=${app.config.recordingMode}]`).click();
 
 	async function loadMediaDevices() {
-		const videoInDeviceId = await app.getVideoInDeviceId();
-		const audioInDeviceId = await app.getAudioInDeviceId();
-
 		const mediaDevices = await navigator.mediaDevices.enumerateDevices();
 
 		$("#cam-select select").html("");
@@ -48,31 +50,33 @@ $(function () {
 		for (const mediaDevice of mediaDevices) {
 			if (mediaDevice.kind == "videoinput") {
 				let selectedText = "";
-				if (mediaDevice.deviceId == videoInDeviceId) {
+				if (mediaDevice.deviceId == app.config.videoInDeviceId) {
 					selectedText = "selected";
 				}
-				$("#cam-select select").append(
-					`<option value='${mediaDevice.deviceId}' ${selectedText}>${mediaDevice.label}</option>`
-				);
+				$("#cam-select select").append(`<option value='${mediaDevice.deviceId}' ${selectedText}>${mediaDevice.label}</option>`);
 			} else if (mediaDevice.kind == "audioinput") {
 				let selectedText = "";
-				if (mediaDevice.deviceId == audioInDeviceId) {
+				if (mediaDevice.deviceId == app.config.audioInDeviceId) {
 					selectedText = "selected";
 				}
-				$("#mic-select select").append(
-					`<option value='${mediaDevice.deviceId}' ${selectedText}>${mediaDevice.label}</option>`
-				);
+				$("#mic-select select").append(`<option value='${mediaDevice.deviceId}' ${selectedText}>${mediaDevice.label}</option>`);
 			}
 		}
 	}
 
 	$(".popup").click(function (e) {
-		if (
-			e.target.classList.contains("popup") &&
-			!e.target.classList.contains("static-backdrop")
-		) {
+		if (e.target.classList.contains("popup") && !e.target.classList.contains("static-backdrop")) {
 			$(this).removeClass("show");
 		}
+	});
+
+	axios.get(app.config.atrecWebUrl + "/api/sponsor-text").then((resp) => {
+		let sponsorText = resp.data
+			.replace(/</g, "&lt;")
+			.replace(/>/g, "&gt;")
+			.replace(/\[(http[^\]]+)\]\(([^\)]+)\)/g, "<a href='$1'>$2</a>");
+
+		$(".sponsor-text").html(sponsorText);
 	});
 });
 

@@ -48,11 +48,7 @@ img {
 * Main Window
 *********************/
 .main-window {
-	background-image: linear-gradient(
-		90deg,
-		rgb(171 174 181 / 90%) 0%,
-		rgb(162 165 172 / 90%) 100%
-	);
+	background-image: linear-gradient(90deg, rgb(171 174 181 / 90%) 0%, rgb(162 165 172 / 90%) 100%);
 	border-radius: 40px;
 	width: 100%;
 	height: 100vh;
@@ -86,8 +82,8 @@ img {
 
 .app-branding {
 	margin: auto;
-    margin-bottom: 23px;
-    width: 330px;
+	margin-bottom: 23px;
+	width: 330px;
 }
 .app-branding img {
 	width: 100%;
@@ -243,23 +239,23 @@ img {
 
 #error .error-message {
 	background: white;
-    font-family: serif;
-    padding: 50px;
-    margin: 50px;
-    border-radius: 5px;
-    font-size: 18px;
-    color: red;
-    text-align: center;
+	font-family: serif;
+	padding: 50px;
+	margin: 50px;
+	border-radius: 5px;
+	font-size: 18px;
+	color: red;
+	text-align: center;
 }
 
 #video-url textarea {
 	font-size: 20px;
-    padding: 50px;
-    margin: 50px;
-    outline: none;
-    width: 500px;
-    text-align: center;
-    resize: none;
+	padding: 50px;
+	margin: 50px;
+	outline: none;
+	width: 500px;
+	text-align: center;
+	resize: none;
 }
 
 .gsi-material-button {
@@ -283,8 +279,7 @@ img {
 	padding: 0 12px;
 	position: relative;
 	text-align: center;
-	-webkit-transition: background-color 0.218s, border-color 0.218s,
-		box-shadow 0.218s;
+	-webkit-transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
 	transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
 	vertical-align: middle;
 	white-space: nowrap;
@@ -359,10 +354,8 @@ img {
 }
 
 .gsi-material-button:not(:disabled):hover {
-	-webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
-		0 1px 3px 1px rgba(60, 64, 67, 0.15);
-	box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
-		0 1px 3px 1px rgba(60, 64, 67, 0.15);
+	-webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+	box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
 
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
@@ -370,7 +363,7 @@ img {
 	opacity: 8%;
 }
 
-.sponsored-text {
+.sponsor-text {
 	margin: 18px auto;
 	font-size: 18px;
 	width: fit-content;

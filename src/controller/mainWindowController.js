@@ -19,6 +19,13 @@ module.exports = function () {
 
 			window.loadFile(webContentPath + "/html/mainWindow.html");
 
+			window.webContents.send("config", {
+				recordingMode: cnf.recordingMode,
+				videoInDeviceId: cnf.videoInDeviceId,
+				audioInDeviceId: cnf.audioInDeviceId,
+				atrecWebUrl,
+			});
+
 			log.info("App main window open");
 
 			global.mainWindow = window;
@@ -26,8 +33,6 @@ module.exports = function () {
 	});
 
 	ipcMain.handle("mainWindow:showError", function (e, message) {
-		mainWindow.webContents.executeJavaScript(
-			'hideLoader(); showError("' + message + '");'
-		);
+		mainWindow.webContents.executeJavaScript('hideLoader(); showError("' + message + '");');
 	});
 };

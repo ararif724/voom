@@ -24,9 +24,7 @@ global.cnf = {
 	...userCnf,
 };
 
-global.atrecWebUrl = cnf?.atrecWebUrl
-	? cnf?.atrecWebUrl
-	: "https://www.atrec.app";
+global.atrecWebUrl = cnf?.atrecWebUrl ? cnf?.atrecWebUrl : "https://www.atrec.app";
 global.preloadScriptPath = path.join(__dirname, "/preloadScript");
 global.webContentPath = path.join(__dirname, "/webContent");
 
@@ -44,9 +42,6 @@ if (!app.requestSingleInstanceLock()) {
 ipcMain.handle("app:close", quitApp);
 ipcMain.handle("app:signIn", signIn);
 ipcMain.handle("app:openInBrowser", (e, url) => openInBrowser(url));
-ipcMain.handle("app:getRecordingMode", () => cnf.recordingMode);
-ipcMain.handle("app:getVideoInDeviceId", () => cnf.videoInDeviceId);
-ipcMain.handle("app:getAudioInDeviceId", () => cnf.audioInDeviceId);
 
 app.whenReady().then(() => {
 	const { screen } = require("electron");
