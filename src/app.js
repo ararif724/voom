@@ -38,6 +38,10 @@ if (!app.requestSingleInstanceLock()) {
 	app.exit(0);
 }
 
+if (process.platform === "win32") {
+	app.disableHardwareAcceleration();
+}
+
 //app event handlers
 ipcMain.handle("app:close", quitApp);
 ipcMain.handle("app:signIn", signIn);
