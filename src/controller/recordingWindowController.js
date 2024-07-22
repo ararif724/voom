@@ -20,7 +20,7 @@ module.exports = function () {
 		}
 
 		ipcMain.emit("recordingWindow:open");
-		mainWindow.close();
+		mainWindow.destroy();
 	});
 
 	ipcMain.handle("recording:stop", function (e, showLoader = false, showSignIn = false) {
@@ -29,8 +29,8 @@ module.exports = function () {
 			mainWindow.webContents.executeJavaScript("showSignIn();");
 		}
 
-		if (typeof camWindow != "undefined" && !mainWindow?.isDestroyed()) {
-			camWindow.close();
+		if (typeof camWindow != "undefined") {
+			camWindow.destroy();
 		}
 
 		if (showLoader) {

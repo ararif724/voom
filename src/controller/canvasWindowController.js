@@ -5,11 +5,6 @@ module.exports = function () {
 	ipcMain.handle("canvasWindow:enterDrawMode", function () {
 		recordingWindow.hide();
 
-		if (typeof canvasWindow != "undefined") {
-			canvasWindow.show();
-			return true;
-		}
-
 		const window = new BrowserWindow({
 			frame: false,
 			...cnf.displaySize,
@@ -33,7 +28,7 @@ module.exports = function () {
 	});
 
 	ipcMain.handle("canvasWindow:exitDrawMode", function () {
-		canvasWindow.hide();
+		canvasWindow.destroy();
 		recordingWindow.show();
 	});
 };
