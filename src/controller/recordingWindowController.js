@@ -29,7 +29,7 @@ module.exports = function () {
 			mainWindow.webContents.executeJavaScript("showSignIn();");
 		}
 
-		if (typeof camWindow != "undefined") {
+		if (typeof camWindow != "undefined" && !mainWindow?.isDestroyed()) {
 			camWindow.close();
 		}
 
