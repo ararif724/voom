@@ -16,11 +16,11 @@ log.info("App running");
 userCnf = getAllCnf();
 
 global.cnf = {
-	recordingMode: "screenCamera",
+	recordingMode: "screen-camera",
 	videoInDeviceId: null,
 	audioInDeviceId: null,
 	recordingWindowPosition: { x: null, y: null },
-	camWindowPosition: { x: null, y: null }, //only used for rounded camera window of screenCamera mode
+	camWindowPosition: { x: null, y: null }, //only used for rounded camera window of screen-camera mode
 	...userCnf,
 };
 
@@ -44,6 +44,7 @@ if (process.platform === "win32") {
 
 //app event handlers
 ipcMain.handle("app:close", quitApp);
+ipcMain.handle("app:minimize", () => mainWindow.minimize());
 ipcMain.handle("app:signIn", signIn);
 ipcMain.handle("app:openInBrowser", (e, url) => openInBrowser(url));
 

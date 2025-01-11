@@ -5,6 +5,7 @@ ipcRenderer.on("config", (event, config) => {
 		config: config,
 		signIn: () => ipcRenderer.invoke("app:signIn"),
 		close: () => ipcRenderer.invoke("app:close"),
+		minimize: () => ipcRenderer.invoke("app:minimize"),
 		openInBrowser: (url) => ipcRenderer.invoke("app:openInBrowser", url),
 		startRecording: (recordingMode, videoInDeviceId, audioInDeviceId) =>
 			ipcRenderer.invoke("recording:start", recordingMode, videoInDeviceId, audioInDeviceId),

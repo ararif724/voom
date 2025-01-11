@@ -8,7 +8,7 @@ module.exports = function () {
 				height: 600,
 			};
 
-			if (cnf.recordingMode == "screenCamera") {
+			if (cnf.recordingMode == "screen-camera") {
 				const camWindowHeight = 300;
 
 				if (cnf.camWindowPosition.x == null) {
@@ -44,7 +44,7 @@ module.exports = function () {
 				audioInDeviceId: cnf.audioInDeviceId,
 			});
 
-			if (cnf.recordingMode == "screenCamera") {
+			if (cnf.recordingMode == "screen-camera") {
 				window.on("move", function () {
 					const bounds = window.getBounds();
 					cnf.camWindowPosition.x = bounds.x;

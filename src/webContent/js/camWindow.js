@@ -1,5 +1,5 @@
 $(async function () {
-	if (app.config.recordingMode == "screenCamera") {
+	if (app.config.recordingMode == "screen-camera") {
 		$("#cam-video").addClass("screen-camera-mode");
 	} else {
 		$("#cam-video").removeClass("screen-camera-mode");

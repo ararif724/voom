@@ -1,459 +1,72 @@
-@import url("./fontawesome.min.css");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@font-face {
-	font-family: "LobsterTwo";
-	src: url("../webfonts/LobsterTwo-Regular.ttf");
-	font-weight: normal;
-}
-
-@font-face {
-	font-family: "LobsterTwo";
-	src: url("../webfonts/LobsterTwo-Italic.ttf");
-	font-weight: normal;
-	font-style: italic;
-}
-
-@font-face {
-	font-family: "LobsterTwo";
-	src: url("../webfonts/LobsterTwo-Bold.ttf");
-	font-weight: bold;
-}
-
-@font-face {
-	font-family: "LobsterTwo";
-	src: url("../webfonts/LobsterTwo-BoldItalic.ttf");
-	font-weight: bold;
-	font-style: italic;
-}
-
-body {
-	margin: 0;
-	overflow: hidden;
-	font-family: "LobsterTwo";
-}
-
-::selection:not(input):not(textarea):not(.error-message) {
-	background: transparent;
-}
-
-img {
-	max-width: 100%;
-}
-
-.d-flex {
-	display: flex;
-}
-
-/**
-* Main Window
-*********************/
-.main-window {
-	background-image: linear-gradient(90deg, rgb(171 174 181 / 90%) 0%, rgb(162 165 172 / 90%) 100%);
-	border-radius: 40px;
-	width: 100%;
-	height: 100vh;
-	-webkit-app-region: drag;
-	overflow: hidden;
-	position: relative;
-	padding: 30px;
-	box-sizing: border-box;
-	user-select: none;
-	appearance: none;
-}
-
-.main-window * {
-	-webkit-app-region: no-drag;
-}
-
-.main-window .close-app {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 25px 25px 0 0;
-	font-size: 25px;
-	color: #dddddd;
-	cursor: pointer;
-	transition: all 0.2s;
-}
-
-.main-window .close-app:hover {
-	color: #fff;
-}
-
-.app-branding {
-	margin: auto;
-	margin-bottom: 23px;
-	width: 330px;
-}
-.app-branding img {
-	width: 100%;
-	filter: drop-shadow(2px 4px 6px black);
-	-webkit-app-region: drag;
-}
-
-.recording-mode-selector-container {
-	display: flex;
-}
-
-.recording-mode-select {
-	flex: 1;
-	margin: 10px 15px;
-	text-align: center;
-	color: rgb(255 255 255 / 95%);
-	font-size: 20px;
-	cursor: pointer;
-	transition: all 0.5s;
-}
-
-.recording-mode-select.active {
-	filter: drop-shadow(0px 15px 30px black);
-	transform: scale(1.12);
-}
-
-.recording-mode-select:not(.active) {
-	filter: contrast(0.7);
-	transform: scale(0.9);
-}
-
-.recording-mode-select:not(.active):hover {
-	filter: contrast(1);
-	transform: scale(1);
-}
-
-.recording-mode-select img {
-	border-radius: 15px;
-	margin: 0 0 10px 0;
-}
-
-.select-box {
-	flex: 1;
-	background-color: rgb(166 169 176);
-	margin: 50px 15px;
-	border-radius: 10px;
-	color: rgb(255 255 255 / 95%);
-}
-
-.select-box select {
-	width: 100%;
-	background: transparent;
-	border: none;
-	color: inherit;
-	font-size: 15px;
-	padding: 20px 0;
-	margin-right: 20px;
-	outline: none;
-	font-family: inherit;
-}
-
-.select-box select option {
-	background-color: rgb(166 169 176);
-}
-
-.select-box .icon {
-	color: inherit;
-	font-size: 20px;
-	padding: 20px;
-}
-
-.start-record-btn {
-	margin: 0 auto;
-	width: 300px;
-	text-align: center;
-	background-color: rgb(255 255 255 / 80%);
-	color: #2f2f2f;
-	padding: 20px;
-	font-size: 20px;
-	font-weight: bold;
-	border-radius: 32px;
-	cursor: pointer;
-	transition: all 0.2s;
-	position: relative;
-}
-
-.start-record-btn .record-icon {
-	border: 10px solid #ff0000cf;
-	border-radius: 50%;
-	width: 12px;
-	height: 12px;
-	display: block;
-	position: absolute;
-	left: 35px;
-	top: 50%;
-	transform: translateY(-50%);
-}
-
-.start-record-btn:hover {
-	background-color: white;
-}
-
-.popup {
-	z-index: -1;
-	visibility: hidden;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: rgba(0, 0, 0, 0.5);
-}
-.popup.show {
-	z-index: 1;
-	visibility: visible;
-}
-.loader {
-	width: 100px;
-	height: 100px;
-	display: inline-block;
-	position: relative;
-}
-.loader::after,
-.loader::before {
-	content: "";
-	box-sizing: border-box;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	border: 5px solid #fff;
-	position: absolute;
-	left: 0;
-	top: 0;
-	animation: animloader 2s linear infinite;
-}
-.loader::after {
-	animation-delay: 1s;
-}
-
-@keyframes animloader {
-	0% {
-		transform: scale(0);
-		opacity: 1;
+@layer base {
+	@font-face {
+		font-family: "Poppins";
+		font-style: normal;
+		font-weight: 400;
+		font-display: swap;
+		src: url("../font/Poppins/Poppins-Regular.ttf") format("truetype");
 	}
-	100% {
-		transform: scale(1);
-		opacity: 0;
+	@font-face {
+		font-family: "Poppins";
+		font-style: normal;
+		font-weight: 500;
+		font-display: swap;
+		src: url("../font/Poppins/Poppins-Medium.ttf") format("truetype");
 	}
-}
+	@font-face {
+		font-family: "Poppins";
+		font-style: normal;
+		font-weight: 600;
+		font-display: swap;
+		src: url("../font/Poppins/Poppins-SemiBold.ttf") format("truetype");
+	}
+	@font-face {
+		font-family: "Poppins";
+		font-style: normal;
+		font-weight: 700;
+		font-display: swap;
+		src: url("../font/Poppins/Poppins-Bold.ttf") format("truetype");
+	}
+	body {
+		font-family: "Poppins";
+	}
+	.title-bar {
+		cursor: move;
+		-webkit-app-region: drag;
+	}
+	.title-bar li {
+		cursor: initial;
+		-webkit-app-region: no-drag;
+	}
+	.recording-btn {
+		background-image: linear-gradient(90deg, #7a3ff6 0%, #451aa0 100%);
+		display: flex;
+		gap: 16px;
+		width: 75%;
+		justify-content: center;
+		align-items: center;
+		margin: 10px;
+		padding: 15px 45px;
+		text-align: center;
+		text-transform: uppercase;
+		transition: 0.5s;
+		background-size: 200% auto;
+		color: white;
+		box-shadow: 0 0 20px #eee;
+		border-radius: 999px;
+	}
 
-#error .error-message {
-	background: white;
-	font-family: serif;
-	padding: 50px;
-	margin: 50px;
-	border-radius: 5px;
-	font-size: 18px;
-	color: red;
-	text-align: center;
-}
+	.recording-btn:hover {
+		background-position: right center;
+		color: #fff;
+		text-decoration: none;
+	}
 
-#video-url textarea {
-	font-size: 20px;
-	padding: 50px;
-	margin: 50px;
-	outline: none;
-	width: 500px;
-	text-align: center;
-	resize: none;
-}
-
-.gsi-material-button {
-	user-select: none;
-	appearance: none;
-	background-color: #f2f2f2;
-	background-image: none;
-	border: none;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	color: #1f1f1f;
-	cursor: pointer;
-	font-family: "Roboto", arial, sans-serif;
-	font-size: 14px;
-	height: 40px;
-	letter-spacing: 0.25px;
-	outline: none;
-	overflow: hidden;
-	padding: 0 12px;
-	position: relative;
-	text-align: center;
-	-webkit-transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
-	transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
-	vertical-align: middle;
-	white-space: nowrap;
-	width: auto;
-	max-width: 400px;
-	min-width: min-content;
-}
-
-.gsi-material-button .gsi-material-button-icon {
-	height: 20px;
-	margin-right: 12px;
-	min-width: 20px;
-	width: 20px;
-}
-
-.gsi-material-button .gsi-material-button-content-wrapper {
-	-webkit-align-items: center;
-	align-items: center;
-	display: flex;
-	-webkit-flex-direction: row;
-	flex-direction: row;
-	-webkit-flex-wrap: nowrap;
-	flex-wrap: nowrap;
-	height: 100%;
-	justify-content: space-between;
-	position: relative;
-	width: 100%;
-}
-
-.gsi-material-button .gsi-material-button-contents {
-	-webkit-flex-grow: 1;
-	flex-grow: 1;
-	font-family: "Roboto", arial, sans-serif;
-	font-weight: 500;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	vertical-align: top;
-}
-
-.gsi-material-button .gsi-material-button-state {
-	-webkit-transition: opacity 0.218s;
-	transition: opacity 0.218s;
-	bottom: 0;
-	left: 0;
-	opacity: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-}
-
-.gsi-material-button:disabled {
-	cursor: default;
-	background-color: #ffffff61;
-}
-
-.gsi-material-button:disabled .gsi-material-button-state {
-	background-color: #1f1f1f1f;
-}
-
-.gsi-material-button:disabled .gsi-material-button-contents {
-	opacity: 38%;
-}
-
-.gsi-material-button:disabled .gsi-material-button-icon {
-	opacity: 38%;
-}
-
-.gsi-material-button:not(:disabled):active .gsi-material-button-state,
-.gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-	background-color: #001d35;
-	opacity: 12%;
-}
-
-.gsi-material-button:not(:disabled):hover {
-	-webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-	box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-}
-
-.gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-	background-color: #001d35;
-	opacity: 8%;
-}
-
-.sponsor-text {
-	margin: 18px auto;
-	font-size: 18px;
-	width: fit-content;
-}
-
-/*
-* Cam Window
-**************************/
-#cam-video {
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
-	object-fit: cover;
-	-webkit-app-region: drag;
-	box-sizing: border-box;
-}
-
-#cam-video.screen-camera-mode {
-	border-radius: 100%;
-	margin: 20px;
-	border-width: 2px;
-	width: calc(100% - 40px);
-	height: calc(100vh - 40px);
-}
-
-#cam-video.ready {
-	border: 5px solid whitesmoke;
-}
-
-#cam-video.screen-camera-mode.ready {
-	box-shadow: 0 0 15px 1px black;
-}
-
-/*
-* Recording Window
-**************************/
-.recording-window .controls {
-	background: white;
-	border-radius: 10px;
-	display: flex;
-	font-size: 25px;
-	transition: all 0.2s;
-	border: 1px solid gray;
-	justify-content: space-evenly;
-}
-
-.recording-window .controls .control {
-	cursor: pointer;
-	padding: 10px 7px;
-	margin: 0 3px;
-}
-
-.recording-window .controls .control#stop {
-	color: #ff0000cf;
-}
-
-.recording-window .controls .control.disabled {
-	cursor: not-allowed;
-	opacity: 0.1;
-}
-
-.recording-window .controls .control:not(.disabled):not(.no-hover):hover {
-	transform: scale(1.1);
-}
-
-.recording-window .controls .control#drag {
-	white-space: nowrap;
-	padding: 10px 5px;
-	cursor: move;
-	-webkit-app-region: drag;
-}
-
-.recording-window .controls .control#drag i:first-child {
-	letter-spacing: -3px;
-}
-
-/*
-* Canvas Window
-**************************/
-.canvas-window {
-	height: 100vh;
-}
-
-.canvas-window .how-to-exit-message {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	z-index: -1;
-	transform: translate(-50%, -50%);
-	background: rgb(255 255 255 / 80%);
-	padding: 30px;
-	font-family: sans-serif;
+	.select-box .select-options-list ul li {
+		@apply text-start w-full py-2 px-3 text-slate-600 text-sm duration-500 rounded-lg hover:bg-primary-hover;
+	}
 }

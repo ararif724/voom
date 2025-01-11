@@ -8,9 +8,44 @@ document.head.insertAdjacentHTML(
 );
 
 $(function () {
-	loadMediaDevices();
+	let videoInDeviceId = app.config.videoInDeviceId;
+	let audioInDeviceId = app.config.audioInDeviceId;
+	let recordingMode = app.config.recordingMode;
 
-	$(".sponsor-text").on("click", "a", function (e) {
+	loadMediaDevices(true);
+
+	$(".app-close").click(() => app.close());
+	$(".app-minimize").click(() => app.minimize());
+
+	$(".recording-mode-list li").click(function () {
+		$(".recording-mode-list li").removeClass("active");
+		$(this).addClass("active");
+		recordingMode = $(this).data("recording-mode");
+	});
+
+	$(`.recording-mode-list li[data-recording-mode='${recordingMode}']`).click();
+
+	$(".select-box").click(function () {
+		$(this).find(".select-options-list").toggleClass("hidden");
+		if (!$(this).find(".select-options-list").hasClass("hidden")) {
+			loadMediaDevices();
+		}
+	});
+
+	$(".select-options-list ul").on("click", "li", function () {
+		$(this).parents(".select-box").data("value", $(this).data("value")).find(".selected-option-label").text($(this).text());
+		if ($(this).parents(".select-box").attr("id") === "webcam-selection") {
+			videoInDeviceId = $(this).data("value");
+		} else {
+			audioInDeviceId = $(this).data("value");
+		}
+	});
+
+	$(".recording-btn").click(async () => {
+		app.startRecording(recordingMode, videoInDeviceId, audioInDeviceId);
+	});
+
+	$(".sponsor-text a").click(function (e) {
 		e.preventDefault();
 		app.openInBrowser($(this).attr("href"));
 	});
@@ -21,47 +56,38 @@ $(function () {
 		app.signIn();
 	});
 
-	$(".close-app").click(() => app.close());
-
-	$(".recording-mode-select").click(function () {
-		$(".recording-mode-select").removeClass("active");
-		$(this).addClass("active");
-	});
-
-	$("#cam-select select, #mic-select select").focus(loadMediaDevices);
-
-	$(".start-record-btn").click(async () => {
-		const recordingMode = $(".recording-mode-select.active").data("recording-mode");
-		const videoInDeviceId = $("#cam-select select").val();
-		const audioInDeviceId = $("#mic-select select").val();
-
-		app.startRecording(recordingMode, videoInDeviceId, audioInDeviceId);
-	});
-
-	$(`.recording-mode-select[data-recording-mode=${app.config.recordingMode}]`).click();
-
 	async function loadMediaDevices() {
 		const mediaDevices = await navigator.mediaDevices.enumerateDevices();
 
-		$("#cam-select select").html("");
-		$("#mic-select select").html("<option value=''>No Microphone</option>");
+		$("#webcam-selection .select-options-list ul").html("");
+		$("#microphone-selection .select-options-list ul").html("<li data-value=''>No Microphone</li>");
 
 		//load audio and video input media devices list on mainWindow
 		for (const mediaDevice of mediaDevices) {
 			if (mediaDevice.kind == "videoinput") {
-				let selectedText = "";
-				if (mediaDevice.deviceId == app.config.videoInDeviceId) {
-					selectedText = "selected";
-				}
-				$("#cam-select select").append(`<option value='${mediaDevice.deviceId}' ${selectedText}>${mediaDevice.label}</option>`);
+				$("#webcam-selection .select-options-list ul").append(`<li data-value='${mediaDevice.deviceId}'>${mediaDevice.label}</li>`);
 			} else if (mediaDevice.kind == "audioinput") {
-				let selectedText = "";
-				if (mediaDevice.deviceId == app.config.audioInDeviceId) {
-					selectedText = "selected";
-				}
-				$("#mic-select select").append(`<option value='${mediaDevice.deviceId}' ${selectedText}>${mediaDevice.label}</option>`);
+				$("#microphone-selection .select-options-list ul").append(`<li data-value='${mediaDevice.deviceId}'>${mediaDevice.label}</li>`);
 			}
 		}
+
+		let selectedWebcam = $(`#webcam-selection .select-options-list ul li[data-value='${videoInDeviceId}']`);
+		let selectedMicrophone = $(`#microphone-selection .select-options-list ul li[data-value='${audioInDeviceId}']`);
+
+		if (selectedWebcam.length == 0) {
+			selectedWebcam = $("#webcam-selection .select-options-list ul li").first();
+		}
+
+		if (selectedMicrophone.length == 0) {
+			selectedMicrophone = $("#microphone-selection .select-options-list ul li").first();
+		}
+
+		selectedWebcam.parents(".select-box").data("value", selectedWebcam.data("value")).find(".selected-option-label").text(selectedWebcam.text());
+		selectedMicrophone
+			.parents(".select-box")
+			.data("value", selectedMicrophone.data("value"))
+			.find(".selected-option-label")
+			.text(selectedMicrophone.text());
 	}
 
 	$(".popup").click(function (e) {

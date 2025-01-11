@@ -8,8 +8,8 @@ module.exports = function () {
 			const window = new BrowserWindow({
 				frame: false,
 				transparent: true,
-				width: 770,
-				height: 650,
+				width: 520,
+				height: 600,
 				fullscreenable: false,
 				resizable: false,
 				webPreferences: {
@@ -27,7 +27,7 @@ module.exports = function () {
 			});
 
 			log.info("App main window open");
-
+window.webContents.openDevTools();
 			global.mainWindow = window;
 		}
 	});
