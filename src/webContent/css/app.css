@@ -69,4 +69,12 @@
 	.select-box .select-options-list ul li {
 		@apply text-start w-full py-2 px-3 text-slate-600 text-sm duration-500 rounded-lg hover:bg-primary-hover;
 	}
+
+	.popup {
+		@apply absolute z-10 top-0 left-0 w-full h-full bg-[#3C3C41] bg-opacity-50;
+	}
+
+	.popup .popup-body {
+		@apply p-5 absolute text-center rounded-lg left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white;
+	}
 }

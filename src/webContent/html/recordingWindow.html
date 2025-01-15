@@ -2,30 +2,30 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" href="../css/app.css" />
+		<link rel="stylesheet" href="../css/app.min.css" />
 		<script src="../js/jquery-3.7.1.min.js"></script>
 		<script src="../js/axios.min.js"></script>
 		<script type="module" src="../js/recordingWindow.js"></script>
 	</head>
 
-	<body class="recording-window">
-		<div class="controls">
+	<body>
+		<div class="bg-gradient-to-r from-[#472590] to-[#7A3FF6] w-[220px] h-[60px] rounded-[100px] flex items-center gap-3 p-2">
 			<div id="drag" class="control">
 				<i class="fa-solid fa-ellipsis-vertical"></i>
 				<i class="fa-solid fa-ellipsis-vertical"></i>
 			</div>
 			<div id="stop" class="control">
-				<i class="fa-solid fa-stop"></i>
+				<img src="../img/stop.svg" alt="Stop">
 			</div>
-			<div id="timeRecorded" class="control no-hover">00:00</div>
+			<div id="timeRecorded" class="font-semibold text-white">00:00</div>
 			<div id="pauseResume" class="control">
-				<i class="fa-regular fa-circle-pause"></i>
+				<img src="../img/pause.png" alt="Stop">
 			</div>
 			<div id="delete" class="control">
-				<i class="fa-regular fa-trash-can"></i>
+				<img src="../img/trash.png" alt="Stop">
 			</div>
 			<div id="pen" class="control">
-				<i class="fa-solid fa-pencil"></i>
+				<img src="../img/pencil.png" alt="Stop">
 			</div>
 		</div>
 	</body>

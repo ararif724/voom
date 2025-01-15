@@ -17,17 +17,18 @@ module.exports = function () {
 				},
 			});
 
-			window.loadFile(webContentPath + "/html/mainWindow.html");
+			window.loadFile(webContentPath + "/html/recordingWindow.html");
 
 			window.webContents.send("config", {
 				recordingMode: cnf.recordingMode,
 				videoInDeviceId: cnf.videoInDeviceId,
 				audioInDeviceId: cnf.audioInDeviceId,
+				notSignedIn: typeof cnf.googleApiRefreshToken == "undefined" || typeof cnf.atrecWebApiToken == "undefined",
 				atrecWebUrl,
 			});
 
 			log.info("App main window open");
-window.webContents.openDevTools();
+			window.webContents.openDevTools();
 			global.mainWindow = window;
 		}
 	});

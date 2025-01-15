@@ -34,7 +34,9 @@ function signIn() {
 					if (totalCheckForSessionData++ >= 30) {
 						clearInterval(intervalId);
 						log.info("Sign-in session timeout");
-						mainWindow.webContents.executeJavaScript('hideLoader(); showError("Sign-in session timeout! Please try again.")');
+						mainWindow.webContents.executeJavaScript(
+							'hideLoader(); showError("Sign-in session timeout! Please try again.", "Sign-in session timeout!")'
+						);
 						return;
 					}
 					axios
@@ -63,14 +65,14 @@ function signIn() {
 			} else {
 				log.info("Get session ID resp:", resp.data);
 				mainWindow.webContents.executeJavaScript(
-					'hideLoader(); showError("Unable to connect with sign-in server. Please try again. <br> If you see this message every time please contact support")'
+					'hideLoader(); showError("Please try again after some time or contact support for help", "Unable to connect sign in server!")'
 				);
 			}
 		})
 		.catch((error) => {
 			log.info("Get session ID resp:", error?.response?.data || error?.message);
 			mainWindow.webContents.executeJavaScript(
-				'hideLoader(); showError("Unable to connect with sign-in server. Please check your internet connection and try again. <br> If you see this message every time please contact support")'
+				'hideLoader(); showError("Please try again after some time or contact support for help", "Unable to connect sign in server!")'
 			);
 		});
 }
