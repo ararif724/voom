@@ -38,6 +38,8 @@ module.exports = function () {
 
 			window.loadFile(webContentPath + "/html/camWindow.html");
 
+			window.webContents.openDevTools();
+
 			window.webContents.send("config", {
 				recordingMode: cnf.recordingMode,
 				videoInDeviceId: cnf.videoInDeviceId,

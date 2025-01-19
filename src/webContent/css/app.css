@@ -34,7 +34,8 @@
 	body {
 		font-family: "Poppins";
 	}
-	.title-bar {
+	.title-bar,
+	.drag {
 		cursor: move;
 		-webkit-app-region: drag;
 	}
@@ -59,21 +60,28 @@
 		box-shadow: 0 0 20px #eee;
 		border-radius: 999px;
 	}
-
 	.recording-btn:hover {
 		background-position: right center;
 		color: #fff;
 		text-decoration: none;
 	}
-
+	#cam-video.ready {
+		border: 5px solid #AC8DEE;
+		-webkit-app-region: drag;
+		border-radius: 24px;
+	}
+	#cam-video.ready.screen-camera-mode {
+		@apply rounded-full object-cover object-center h-screen w-full;
+	}
+	.control li {
+		@apply cursor-pointer duration-300 hover:scale-110;
+	}
 	.select-box .select-options-list ul li {
 		@apply text-start w-full py-2 px-3 text-slate-600 text-sm duration-500 rounded-lg hover:bg-primary-hover;
 	}
-
 	.popup {
 		@apply absolute z-10 top-0 left-0 w-full h-full bg-[#3C3C41] bg-opacity-50;
 	}
-
 	.popup .popup-body {
 		@apply p-5 absolute text-center rounded-lg left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white;
 	}

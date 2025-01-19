@@ -2,6 +2,8 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src *" />
+		<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src *" />
 		<title>Atrec</title>
 		<link rel="stylesheet" href="../css/app.min.css" />
 		<script src="../js/jquery-3.7.1.min.js"></script>
@@ -168,7 +170,7 @@
 							<p class="text-center font-semibold text-slate-400">Screen & Cam</p>
 						</button>
 					</li>
-					<li class="w-full group" data-recording-mode="camera">
+					<li class="w-full group" data-recording-mode="screen">
 						<button
 							class="w-full py-4 group rounded-3xl border border-slate-200 border-solid flex flex-col items-center justify-center gap-2 duration-500 group-[.active]:border-[#B79AF4] group-[.active]:bg-primary-hover"
 						>
@@ -334,7 +336,7 @@
 			</div>
 
 			<!-- Processing Popup -->
-			<div id="processing" class="popup hidden">
+			<div id="processing" class="popup hidden static-backdrop">
 				<div class="popup-body w-1/2">
 					<p class="text-[#939393] text-sm">Processing....</p>
 					<div class="mx-auto mt-3 w-10 h-10 rounded-full border-4 border-[#D9D9D9] border-t-primary animate-spin"></div>
@@ -344,7 +346,7 @@
 			<!-- Success Popup -->
 			<div id="success" class="popup hidden">
 				<div class="popup-body w-4/6">
-					<img class="mx-auto" src="../img/success.png" alt="Success" />
+					<img class="mx-auto" src="../img/success.svg" alt="Success" />
 					<h3 class="font-semibold text-[#05051F] my-2">Awesome</h3>
 					<p class="text-[#5C5C5C] text-sm">We encountered an error while trying to process your request.</p>
 				</div>
@@ -353,7 +355,7 @@
 			<!-- Error Popup -->
 			<div id="error" class="popup hidden">
 				<div class="popup-body w-4/6">
-					<img class="mx-auto" src="../img/error.png" alt="Error" />
+					<img class="mx-auto" src="../img/error.svg" alt="Error" />
 					<h3 class="error-title font-semibold text-[#05051F] my-2">Oops! something went wrong</h3>
 					<p class="error-message text-[#5C5C5C] text-sm">We encountered an error while trying to process your request.</p>
 				</div>

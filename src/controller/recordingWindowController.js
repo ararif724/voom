@@ -1,13 +1,9 @@
 const { BrowserWindow, ipcMain, desktopCapturer } = require("electron");
 
 module.exports = function () {
-	const recordingControlPanelSize = { width: 300, height: 60 };
+	const recordingControlPanelSize = { width: 270, height: 58 };
 
 	ipcMain.handle("recording:start", async function (event, recordingMode, videoInDeviceId, audioInDeviceId) {
-		if (typeof cnf.googleApiRefreshToken == "undefined" || typeof cnf.atrecWebApiToken == "undefined") {
-			return mainWindow.webContents.executeJavaScript("showSignIn();");
-		}
-
 		cnf.recordingMode = recordingMode;
 		cnf.videoInDeviceId = videoInDeviceId;
 		cnf.audioInDeviceId = audioInDeviceId;

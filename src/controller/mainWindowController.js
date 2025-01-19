@@ -17,7 +17,7 @@ module.exports = function () {
 				},
 			});
 
-			window.loadFile(webContentPath + "/html/recordingWindow.html");
+			window.loadFile(webContentPath + "/html/mainWindow.html");
 
 			window.webContents.send("config", {
 				recordingMode: cnf.recordingMode,
