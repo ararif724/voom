@@ -16,15 +16,18 @@ log.info("App running");
 userCnf = getAllCnf();
 
 global.cnf = {
+	//default config
 	recordingMode: "screen-camera",
 	videoInDeviceId: null,
 	audioInDeviceId: null,
 	recordingWindowPosition: { x: null, y: null },
 	camWindowPosition: { x: null, y: null }, //only used for rounded camera window of screen-camera mode
+	atrecWebUrl: "https://www.atrec.app",
+	//user config. default config will be overridden by user config
 	...userCnf,
 };
 
-global.atrecWebUrl = cnf?.atrecWebUrl ? cnf?.atrecWebUrl : "https://www.atrec.app";
+global.atrecWebUrl = cnf?.atrecWebUrl;
 global.preloadScriptPath = path.join(__dirname, "/preloadScript");
 global.webContentPath = path.join(__dirname, "/webContent");
 
@@ -35,10 +38,12 @@ recordingWindowController();
 canvasWindowController();
 
 if (!app.requestSingleInstanceLock()) {
-	app.exit(0);
+	app.exit(0); //exit if another instance is running
 }
 
 if (process.platform === "win32") {
+	//disable hardware acceleration on windows
+	//window frame: false is not working without this in windows machine
 	app.disableHardwareAcceleration();
 }
 

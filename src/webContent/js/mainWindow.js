@@ -3,12 +3,12 @@ $(function () {
 	let audioInDeviceId = app.config.audioInDeviceId;
 	let recordingMode = app.config.recordingMode;
 
-	loadMediaDevices(videoInDeviceId, audioInDeviceId); // load media devices
+	loadMediaDevices(videoInDeviceId, audioInDeviceId); //load media devices
 
-	$(".app-close").click(() => app.close()); // close app
-	$(".app-minimize").click(() => app.minimize()); // minimize app
+	$(".app-close").click(() => app.close()); //close app
+	$(".app-minimize").click(() => app.minimize()); //minimize app
 
-	// select recording mode
+	//select recording mode
 	$(".recording-mode-list li").click(function () {
 		$(".recording-mode-list li").removeClass("active");
 		$(this).addClass("active");
@@ -83,30 +83,30 @@ $(function () {
  * @param {*} audioInDeviceId - selected audio input media device
  */
 async function loadMediaDevices(videoInDeviceId, audioInDeviceId) {
-	const mediaDevices = await navigator.mediaDevices.enumerateDevices(); // get media devices
+	const mediaDevices = await navigator.mediaDevices.enumerateDevices(); //get media devices
 
-	$("#webcam-selection .select-options-list ul").html(""); // clear camera list
-	$("#microphone-selection .select-options-list ul").html("<li data-value=''>No Microphone</li>"); // clear microphone list
+	$("#webcam-selection .select-options-list ul").html(""); //clear camera list
+	$("#microphone-selection .select-options-list ul").html("<li data-value=''>No Microphone</li>"); //clear microphone list
 
 	//load audio and video input media devices list on mainWindow
 	for (const mediaDevice of mediaDevices) {
 		if (mediaDevice.kind == "videoinput") {
-			$("#webcam-selection .select-options-list ul").append(`<li data-value='${mediaDevice.deviceId}'>${mediaDevice.label}</li>`); // append camera
+			$("#webcam-selection .select-options-list ul").append(`<li data-value='${mediaDevice.deviceId}'>${mediaDevice.label}</li>`); //append camera
 		} else if (mediaDevice.kind == "audioinput") {
-			$("#microphone-selection .select-options-list ul").append(`<li data-value='${mediaDevice.deviceId}'>${mediaDevice.label}</li>`); // append microphone
+			$("#microphone-selection .select-options-list ul").append(`<li data-value='${mediaDevice.deviceId}'>${mediaDevice.label}</li>`); //append microphone
 		}
 	}
 
-	let selectedWebcam = $(`#webcam-selection .select-options-list ul li[data-value='${videoInDeviceId}']`); // select previously selected camera
-	let selectedMicrophone = $(`#microphone-selection .select-options-list ul li[data-value='${audioInDeviceId}']`); // select previously selected microphone
+	let selectedWebcam = $(`#webcam-selection .select-options-list ul li[data-value='${videoInDeviceId}']`); //select previously selected camera
+	let selectedMicrophone = $(`#microphone-selection .select-options-list ul li[data-value='${audioInDeviceId}']`); //select previously selected microphone
 
 	if (selectedWebcam.length == 0) {
-		// select first camera if previously selected camera is not found
+		//select first camera if previously selected camera is not found
 		selectedWebcam = $("#webcam-selection .select-options-list ul li").first();
 	}
 
 	if (selectedMicrophone.length == 0) {
-		// select first microphone if previously selected microphone is not found
+		//select first microphone if previously selected microphone is not found
 		selectedMicrophone = $("#microphone-selection .select-options-list ul li").first();
 	}
 
@@ -119,24 +119,24 @@ async function loadMediaDevices(videoInDeviceId, audioInDeviceId) {
 		.text(selectedMicrophone.text());
 }
 
-// show loader
+//show loader
 function showLoader() {
 	$("#processing").removeClass("hidden");
 }
 
-// hide loader
+//hide loader
 function hideLoader() {
 	$("#processing").addClass("hidden");
 }
 
-// show video url
+//show video url
 function showVideoUrl(url) {
 	$("#video-url").addClass("show");
 	$("#video-url textarea").val(url).select();
 	navigator.clipboard.writeText(url);
 }
 
-// show errors
+//show errors
 function showError(message, title = "Oops! something went wrong") {
 	if (message == "") {
 		message = "We encountered an error while trying to process your request.";
@@ -146,7 +146,7 @@ function showError(message, title = "Oops! something went wrong") {
 	$("#error").removeClass("hidden");
 }
 
-// show sign in
+//show sign in
 function showSignIn() {
 	$("#sign-in").removeClass("hidden");
 }
