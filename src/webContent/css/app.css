@@ -31,8 +31,10 @@
 		font-display: swap;
 		src: url("../font/Poppins/Poppins-Bold.ttf") format("truetype");
 	}
+	html,
 	body {
 		font-family: "Poppins";
+		overflow: hidden;
 	}
 	.title-bar,
 	.drag {
@@ -65,9 +67,12 @@
 		color: #fff;
 		text-decoration: none;
 	}
+	#pen.disabled {
+		@apply opacity-50 cursor-not-allowed;
+	}
 	#cam-video {
 		-webkit-app-region: drag;
-		border: 5px solid #AC8DEE;
+		border: 5px solid #ac8dee;
 		border-radius: 24px;
 		@apply opacity-0 transition-opacity duration-500;
 	}

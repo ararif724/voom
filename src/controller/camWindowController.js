@@ -4,8 +4,8 @@ module.exports = function () {
 	ipcMain.on("camWindow:open", () => {
 		// default camera window size
 		let config = {
-			width: 700,
-			height: 600,
+			width: 650,
+			height: 490,
 		};
 
 		if (cnf.recordingMode == "screen-camera") {
@@ -39,7 +39,7 @@ module.exports = function () {
 		});
 
 		window.loadFile(webContentPath + "/html/camWindow.html");
-
+		window.webContents.openDevTools();
 		window.webContents.send("config", {
 			recordingMode: cnf.recordingMode,
 			videoInDeviceId: cnf.videoInDeviceId,
