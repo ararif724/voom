@@ -1,50 +1,37 @@
-$(function () {
-	$(".canvas-window .how-to-exit-message").fadeOut(2000);
+$(document).ready(function () {
+	var lc = LC.init(document.getElementsByClassName("literally core")[0]);
 
-	const paintCanvas = document.querySelector("#canvas-window-canvas");
-	paintCanvas.width = document.body.clientWidth;
-	paintCanvas.height = document.body.clientHeight;
+	var tools = [
+		{
+			name: "pencil",
+			el: document.getElementById("tool-pencil"),
+			tool: new LC.tools.Pencil(lc),
+		},
+		{
+			name: "eraser",
+			el: document.getElementById("tool-eraser"),
+			tool: new LC.tools.Eraser(lc),
+		},
+	];
 
-	const context = paintCanvas.getContext("2d");
+	var activateTool = function (t) {
+		lc.setTool(t.tool);
 
-	window.addEventListener("keyup", function (e) {
-		if (e.key == "Escape") {
-			context.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
-			app.exitDrawMode();
-		}
+		tools.forEach(function (t2) {
+			if (t == t2) {
+				t2.el.style.backgroundColor = "yellow";
+			} else {
+				t2.el.style.backgroundColor = "transparent";
+			}
+		});
+	};
+
+	tools.forEach(function (t) {
+		t.el.style.cursor = "pointer";
+		t.el.onclick = function (e) {
+			e.preventDefault();
+			activateTool(t);
+		};
 	});
-
-	context.lineCap = "round";
-	context.strokeStyle = "red";
-	context.lineWidth = 5;
-
-	let x = 0,
-		y = 0;
-	let isMouseDown = false;
-
-	const stopDrawing = () => {
-		isMouseDown = false;
-	};
-	const startDrawing = (event) => {
-		isMouseDown = true;
-		[x, y] = [event.offsetX, event.offsetY];
-	};
-	const drawLine = (event) => {
-		if (isMouseDown) {
-			const newX = event.offsetX;
-			const newY = event.offsetY;
-			context.beginPath();
-			context.moveTo(x, y);
-			context.lineTo(newX, newY);
-			context.stroke();
-			//[x, y] = [newX, newY];
-			x = newX;
-			y = newY;
-		}
-	};
-
-	paintCanvas.addEventListener("mousedown", startDrawing);
-	paintCanvas.addEventListener("mousemove", drawLine);
-	paintCanvas.addEventListener("mouseup", stopDrawing);
-	paintCanvas.addEventListener("mouseout", stopDrawing);
+	activateTool(tools[0]);
 });

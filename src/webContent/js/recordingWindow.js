@@ -39,17 +39,13 @@ $(function () {
 		clearInterval(timeRecordedIntervalId);
 	}
 
-	function stopRecordWithError(logData = null, showErrorText = null, showSignIn = false) {
+	function stopRecordWithError(logData = null, errorTitle = null, errorMessage = null, showSignIn = false) {
 		app.stopRecord(false, showSignIn);
 		if (logData !== null) {
-			if (typeof logData == "object") {
-				__electronLog.info(...logData);
-			} else {
-				__electronLog.info(logData);
-			}
+			__electronLog.info(JSON.stringify(logData));
 		}
-		if (showErrorText !== null && !showSignIn) {
-			app.showError(showErrorText);
+		if (!showSignIn) {
+			app.showError(errorTitle, errorMessage);
 		}
 	}
 
@@ -135,28 +131,40 @@ $(function () {
 								app.showVideoUrl(sendVideoToWebResponse.data.data.videoUrl);
 							} else {
 								stopRecordWithError(
-									["atrec web error:", sendVideoToWebResponse?.data],
-									"Video uploaded to google drive successfully but unable to generate web link. <br> You may share the video directly from google drive."
+									["Atrec web error:", sendVideoToWebResponse?.data],
+									"Oops! Unable to generate a share URL",
+									"You can share the video directly from Google Drive."
 								);
 							}
-						} catch (err) {
+						} catch (error) {
 							stopRecordWithError(
-								["atrec web error:", err?.response?.data || err?.message],
-								"Video uploaded to google drive successfully but unable to generate web link. <br> You may share the video directly from google drive."
+								["Atrec web error:", error?.response?.data || error?.message || error],
+								"Oops! Unable to generate a share URL",
+								"You can share the video directly from Google Drive."
 							);
 						}
 					} else {
-						stopRecordWithError(["Google drive upload finish error:", resp?.data], "An unexpected error occurred");
+						stopRecordWithError(
+							["Google drive upload finish error:", resp?.data],
+							"Oops! something went wrong",
+							"Atrec encountered an error while trying to finish your upload."
+						);
 					}
-				} catch (resp) {
-					if (resp?.response?.status == 308) {
+				} catch (error) {
+					if (error?.response?.status == 308) {
 						retriedUpload = 0;
-						uploadToGoogleDrive(parseInt(resp.response.headers.range.split("-")[1]) + 1);
+						uploadToGoogleDrive(parseInt(error.response.headers.range.split("-")[1]) + 1);
 					} else {
 						if (retriedUpload <= 5) {
 							uploadToGoogleDrive(fromByte);
 						} else {
-							stopRecordWithError(["Google drive error:", resp?.response?.data || resp?.message], "An unexpected error occurred");
+							stopRecordWithError(
+								["Google drive retries error:", error?.response?.data || error?.message || error],
+								"Oops! something went wrong",
+								error?.message == "Network Error"
+									? "Please check your internet connection and try again."
+									: "Atrec encountered an error while trying to process your request."
+							);
 						}
 						retriedUpload++;
 					}
@@ -166,9 +174,12 @@ $(function () {
 			uploadToGoogleDrive();
 		} catch (error) {
 			stopRecordWithError(
-				["Recording window error: ", error?.response?.data || error?.message || JSON.stringify(error)],
-				"An unexpected error occurred",
-				error?.response?.status === 401
+				["Recording window error: ", error?.response?.data || error?.message || error],
+				"Oops! something went wrong",
+				error?.message == "Network Error"
+					? "Please check your internet connection and try again."
+					: "Atrec encountered an error while trying to process your request.",
+				error?.response?.status === 401 // error?.response?.status === 401 means the user is not signed in
 			);
 		}
 	}
