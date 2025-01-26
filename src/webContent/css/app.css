@@ -65,10 +65,14 @@
 		color: #fff;
 		text-decoration: none;
 	}
-	#cam-video.ready {
-		border: 5px solid #AC8DEE;
+	#cam-video {
 		-webkit-app-region: drag;
+		border: 5px solid #AC8DEE;
 		border-radius: 24px;
+		@apply opacity-0 transition-opacity duration-500;
+	}
+	#cam-video.ready {
+		@apply opacity-100;
 	}
 	#cam-video.ready.screen-camera-mode {
 		@apply rounded-full object-cover object-center h-screen w-full;

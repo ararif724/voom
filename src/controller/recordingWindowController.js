@@ -83,6 +83,10 @@ module.exports = function () {
 		});
 
 		global.recordingWindow = window;
-		ipcMain.emit("camWindow:open");
+
+		if (cnf.recordingMode != "screen") {
+			// open cam window if recording mode is not screen (screen = only screen recording)
+			ipcMain.emit("camWindow:open");
+		}
 	});
 };

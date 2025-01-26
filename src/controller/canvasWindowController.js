@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const { quitApp } = require("../helper");
 
 module.exports = function () {
+	//canvas window. Will open by clicking pencil icon
 	ipcMain.handle("canvasWindow:enterDrawMode", function () {
 		recordingWindow.hide();
 
