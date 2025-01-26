@@ -35,7 +35,7 @@ function signIn() {
 						clearInterval(intervalId);
 						log.info("Sign-in session timeout");
 						mainWindow.webContents.executeJavaScript(
-							'hideLoader(); showError("Sign-in session timeout! Please try again.", "Sign-in session timeout!")'
+							'hideLoader(); showError("Sign-in session timeout!", "Sign-in session timeout! Please try again.")'
 						);
 						return;
 					}
@@ -65,14 +65,14 @@ function signIn() {
 			} else {
 				log.info("Get session ID resp:", resp.data);
 				mainWindow.webContents.executeJavaScript(
-					'hideLoader(); showError("Please try again after some time or contact support for help", "Unable to connect sign in server!")'
+					'hideLoader(); showError("Unable to connect sign in server!", "Please try again after some time or contact support for help")'
 				);
 			}
 		})
 		.catch((error) => {
 			log.info("Get session ID resp:", error?.response?.data || error?.message);
 			mainWindow.webContents.executeJavaScript(
-				'hideLoader(); showError("Please try again after some time or contact support for help", "Unable to connect sign in server!")'
+				'hideLoader(); showError("Unable to connect sign in server!", "Please try again after some time or contact support for help")'
 			);
 		});
 }

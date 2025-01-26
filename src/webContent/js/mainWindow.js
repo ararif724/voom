@@ -137,10 +137,7 @@ function showVideoUrl(url) {
 }
 
 //show errors
-function showError(message, title = "Oops! something went wrong") {
-	if (message == "") {
-		message = "We encountered an error while trying to process your request.";
-	}
+function showError(title, message) {
 	$("#error .error-title").html(title);
 	$("#error .error-message").html(message);
 	$("#error").removeClass("hidden");
