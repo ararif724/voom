@@ -12,9 +12,6 @@ global.log = log;
 log.initialize();
 log.info("App running");
 
-//setting variables
-userCnf = getAllCnf();
-
 global.cnf = {
 	//default config
 	recordingMode: "screen-camera",
@@ -24,7 +21,7 @@ global.cnf = {
 	camWindowPosition: { x: null, y: null }, //only used for rounded camera window of screen-camera mode
 	atrecWebUrl: "https://www.atrec.app",
 	//user config. default config will be overridden by user config
-	...userCnf,
+	...getAllCnf(),
 };
 
 global.atrecWebUrl = cnf?.atrecWebUrl;
