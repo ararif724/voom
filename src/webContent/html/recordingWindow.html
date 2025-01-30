@@ -11,26 +11,30 @@
 	</head>
 
 	<body>
-		<ul class="control select-none bg-gradient-to-b from-[#7A3FF6] to-[#54329E] w-fit h-[58px] rounded-[100px] flex items-center gap-4 p-2 px-5">
-			<li class="drag">
-				<img src="../img/drag.svg" alt="Drag" />
-			</li>
-			<li id="timeRecorded" class="drag font-semibold text-white">00:00</li>
-			<li id="vl" class="hover:!scale-100 !cursor-auto">
-				<img src="../img/vertical-line.svg" alt="" />
-			</li>
-			<li id="stop">
+		<div class="control select-none bg-gradient-to-b from-[#7A3FF6] to-[#54329E] w-fit h-[58px] rounded-[100px] flex items-center gap-4 p-2 px-5">
+			<div class="drag flex h-full items-center gap-4">
+				<div>
+					<img src="../img/drag.svg" alt="Drag" />
+				</div>
+				<div class="w-10 relative">
+					<div id="timeRecorded" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-semibold text-white">00:00</div>
+				</div>
+				<div id="vertical-divider">
+					<img src="../img/vertical-divider.svg" alt="" />
+				</div>
+			</div>
+			<div id="stop">
 				<img src="../img/stop.svg" alt="Stop" />
-			</li>
-			<li id="pause">
+			</div>
+			<div id="pause">
 				<img src="../img/pause.svg" alt="Pause" />
-			</li>
-			<li id="delete">
+			</div>
+			<div id="delete">
 				<img src="../img/trash.svg" alt="Stop" />
-			</li>
-			<li id="pen">
+			</div>
+			<div id="pen">
 				<img src="../img/pencil.svg" alt="Stop" />
-			</li>
-		</ul>
+			</div>
+		</div>
 	</body>
 </html>

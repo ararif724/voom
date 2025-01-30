@@ -46,7 +46,7 @@
 		-webkit-app-region: no-drag;
 	}
 	.recording-btn {
-		background-image: linear-gradient(to bottom, #7A3FF6 0%, #451AA0 100%);
+		background-image: linear-gradient(to bottom, #7a3ff6 0%, #451aa0 100%);
 		display: flex;
 		gap: 16px;
 		width: 75%;
@@ -82,7 +82,7 @@
 	#cam-video.ready.screen-camera-mode {
 		@apply rounded-full object-cover object-center h-screen w-full;
 	}
-	.control li {
+	.control > div {
 		@apply cursor-pointer duration-300 hover:scale-110;
 	}
 	.select-box .select-options-list ul li {
