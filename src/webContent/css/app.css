@@ -46,7 +46,7 @@
 		-webkit-app-region: no-drag;
 	}
 	.recording-btn {
-		background-image: linear-gradient(90deg, #7a3ff6 0%, #451aa0 100%);
+		background-image: linear-gradient(to bottom, #7A3FF6 0%, #451AA0 100%);
 		display: flex;
 		gap: 16px;
 		width: 75%;
@@ -55,7 +55,7 @@
 		margin: 10px;
 		padding: 15px 45px;
 		text-align: center;
-		text-transform: uppercase;
+		text-transform: capitalize;
 		transition: 0.5s;
 		background-size: 200% auto;
 		color: white;
