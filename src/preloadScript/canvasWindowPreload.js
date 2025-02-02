@@ -1,5 +1,8 @@
 const { ipcRenderer, contextBridge } = require("electron");
 
-contextBridge.exposeInMainWorld("app", {
-	exitDrawMode: () => ipcRenderer.invoke("canvasWindow:exitDrawMode"),
+ipcRenderer.on("canvasConfig", (event, canvasConfig) => {
+	contextBridge.exposeInMainWorld("app", {
+		canvasConfig: canvasConfig,
+		exitDrawMode: (canvasConfig) => ipcRenderer.invoke("canvasWindow:exitDrawMode", canvasConfig),
+	});
 });

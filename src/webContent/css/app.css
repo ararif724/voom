@@ -110,7 +110,7 @@
 	.tools .tools-row .tool.disabled {
 		@apply opacity-50 cursor-not-allowed;
 	}
-	.tools .tools-row .tool .pickr .pcr-button {
-		@apply w-6 h-6;
+	.tools .tools-row .tool .color-picker {
+		@apply w-6 h-6 border-[#A6A6A6] overflow-hidden rounded-[4px] border-[1px];
 	}
 }

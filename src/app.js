@@ -19,6 +19,12 @@ global.cnf = {
 	audioInDeviceId: null,
 	recordingWindowPosition: { x: null, y: null },
 	camWindowPosition: { x: null, y: null }, //only used for rounded camera window of screen-camera mode
+	canvasConfig: {
+		fillColor: "#ffffff",
+		strokeColor: "#F40000",
+		toolWidth: 1,
+		toolbarPosition: {top: null, left: null},
+	},
 	atrecWebUrl: "https://www.atrec.app",
 	//user config. default config will be overridden by user config
 	...getAllCnf(),
@@ -56,7 +62,7 @@ app.whenReady().then(() => {
 
 	log.info("App ready");
 
-	ipcMain.emit("mainWindow:open");
+	ipcMain.emit("canvasWindow:enterDrawMode");
 });
 
 app.on("window-all-closed", () => {
