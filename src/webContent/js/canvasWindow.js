@@ -1,3 +1,4 @@
+let literallyCanvas;
 $(document).ready(function () {
 	let canvasConfig = { ...app.canvasConfig };
 
@@ -9,20 +10,21 @@ $(document).ready(function () {
 		isDragging = false;
 
 	// Calculate initial position of toolbar
-	if (canvasConfig.toolbarPosition.top !== null && canvasConfig.toolbarPosition.left !== null) {
+	if (canvasConfig.toolbarPosition.bottom !== null && canvasConfig.toolbarPosition.left !== null) {
 		// Apply previous position
-		canvasTools.style.top = `${canvasConfig.toolbarPosition.top}px`;
+		canvasTools.style.bottom = `${canvasConfig.toolbarPosition.bottom}px`;
 		canvasTools.style.left = `${canvasConfig.toolbarPosition.left}px`;
+		canvasTools.style.top = ""; // Ensure top is cleared
 	} else {
 		// Apply default position
-		canvasTools.style.top = `${(window.innerHeight - canvasTools.offsetHeight) / 2}px`;
+		canvasTools.style.bottom = "100px";
 		canvasTools.style.left = "0";
 	}
 
 	mover.addEventListener("mousedown", (e) => {
 		isDragging = true;
 		offsetX = e.clientX - canvasTools.offsetLeft;
-		offsetY = e.clientY - canvasTools.offsetTop;
+		offsetY = e.clientY - (document.body.clientHeight - (canvasTools.offsetTop + canvasTools.offsetHeight));
 		mover.style.cursor = "grabbing";
 	});
 
@@ -36,12 +38,16 @@ $(document).ready(function () {
 			newX = Math.max(0, Math.min(document.body.clientWidth - canvasTools.offsetWidth, newX));
 			newY = Math.max(0, Math.min(document.body.clientHeight - canvasTools.offsetHeight, newY));
 
+			// Calculate bottom position with a minimum 100px space
+			let bottom = Math.max(100, document.body.clientHeight - (newY + canvasTools.offsetHeight));
+
 			// Update config
-			canvasConfig.toolbarPosition = { top: newY, left: newX };
+			canvasConfig.toolbarPosition = { bottom: bottom, left: newX };
 
 			// Apply new position
 			canvasTools.style.left = `${newX}px`;
-			canvasTools.style.top = `${newY}px`;
+			canvasTools.style.bottom = `${bottom}px`;
+			canvasTools.style.top = ""; // Clear top to avoid conflicts
 		}
 	});
 
@@ -49,6 +55,58 @@ $(document).ready(function () {
 		isDragging = false;
 		mover.style.cursor = "grab";
 	});
+
+	literallyCanvas = LC.init(document.querySelector("#canvas"), {
+		primaryColor: canvasConfig.strokeColor,
+		secondaryColor: canvasConfig.fillColor,
+	});
+
+	$("#tool-undo").on("click", function () {
+		literallyCanvas.undo();
+	});
+
+	$("#tool-redo").on("click", function () {
+		literallyCanvas.redo();
+	});
+
+	$("#tool-clear").on("click", function () {
+		literallyCanvas.clear();
+	});
+
+	literallyCanvas.on("drawingChange", function () {
+		$("#tool-undo").addClass("disabled");
+		$("#tool-redo").addClass("disabled");
+
+		if (literallyCanvas.undoStack.length > 0) {
+			$("#tool-undo").removeClass("disabled");
+		}
+
+		if (literallyCanvas.redoStack.length > 0) {
+			$("#tool-redo").removeClass("disabled");
+		}
+	});
+
+	$(".tools .tool").on("click", function () {
+		const tool = $(this).data("lc-tool");
+		if (typeof LC.tools[tool] !== "undefined") {
+			$(".tools .tool").removeClass("active");
+			$(this).addClass("active");
+
+			const lcTool = new LC.tools[tool](literallyCanvas);
+
+			if ($(this).data("lc-options") !== undefined) {
+				console.log($(this).data("lc-options"));
+				const options = $(this).data("lc-options");
+				for (const [key, value] of Object.entries(options)) {
+					lcTool[key] = value;
+				}
+			}
+
+			literallyCanvas.setTool(lcTool);
+		}
+	});
+
+	$(".tools .tool:first").trigger("click");
 
 	$(".color-picker").each(function () {
 		const pickr = Pickr.create({
@@ -66,52 +124,16 @@ $(document).ready(function () {
 			},
 		});
 
-		pickr.on("save", (color, instance) => {
+		pickr.on("save", (color) => {
 			if (this.id == "fill") {
 				canvasConfig.fillColor = color.toHEXA().toString();
+				literallyCanvas.setColor("secondary", canvasConfig.fillColor);
 			} else {
 				canvasConfig.strokeColor = color.toHEXA().toString();
+				literallyCanvas.setColor("primary", canvasConfig.strokeColor);
 			}
 		});
 	});
 
 	$(".app-close").click(() => app.exitDrawMode(canvasConfig)); // exit draw mode
-
-	var lc = LC.init(document.querySelector("#canvas"), {
-		backgroundColor: "transparent",
-	});
-	return;
-	var tools = [
-		{
-			name: "pencil",
-			el: document.getElementById("tool-pencil"),
-			tool: new LC.tools.Pencil(lc),
-		},
-		{
-			name: "eraser",
-			el: document.getElementById("tool-eraser"),
-			tool: new LC.tools.Eraser(lc),
-		},
-	];
-
-	var activateTool = function (t) {
-		lc.setTool(t.tool);
-
-		tools.forEach(function (t2) {
-			if (t == t2) {
-				t2.el.style.backgroundColor = "yellow";
-			} else {
-				t2.el.style.backgroundColor = "transparent";
-			}
-		});
-	};
-
-	tools.forEach(function (t) {
-		t.el.style.cursor = "pointer";
-		t.el.onclick = function (e) {
-			e.preventDefault();
-			activateTool(t);
-		};
-	});
-	activateTool(tools[0]);
 });

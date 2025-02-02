@@ -21,8 +21,8 @@
 
 	<body class="relative">
 		<div id="canvas"></div>
-		<div id="canvas-tools" class="absolute z-10 w-fit">
-			<div class="rounded-t-lg bg-gradient-to-b from-[#7A3FF6] to-[#451AA0] p-3">
+		<div id="canvas-tools" class="absolute z-10 w-[128px] shadow-[0_0_2px_0_gray] rounded-lg overflow-hidden">
+			<div class="bg-gradient-to-b from-[#7A3FF6] to-[#451AA0] p-3">
 				<ul class="flex items-center gap-4">
 					<li class="flex">
 						<button id="mover" class="cursor-move">
@@ -41,25 +41,25 @@
 					</li>
 				</ul>
 			</div>
-			<div class="tools bg-white px-3 pb-4 rounded-b-lg">
+			<div class="tools bg-white px-3 pb-4">
 				<div class="tools-row">
-					<div class="tool">
+					<div class="tool" data-lc-tool="Pencil">
 						<img src="../img/pencil-black.svg" alt="pencil" />
 					</div>
-					<div class="tool">
+					<div class="tool" data-lc-tool="Line" data-lc-options='{"isDashed": true, "hasEndArrow": true}'>
 						<img src="../img/line.svg" alt="line" />
 					</div>
 				</div>
 				<div class="tools-row">
-					<div class="tool">
+					<div class="tool" data-lc-tool="Rectangle">
 						<img src="../img/rectangle.svg" alt="rectangle" />
 					</div>
-					<div class="tool">
+					<div class="tool" data-lc-tool="Text">
 						<img src="../img/text.svg" alt="text" />
 					</div>
 				</div>
 				<div class="tools-row">
-					<div class="tool">
+					<div class="tool" data-lc-tool="Eraser">
 						<img src="../img/eraser.svg" alt="eraser" />
 					</div>
 					<div class="tool">
@@ -81,15 +81,15 @@
 					</div>
 				</div>
 				<div class="tools-row">
-					<div class="tool disabled">
+					<div class="tool disabled" id="tool-undo">
 						<img src="../img/undo.svg" alt="undo" />
 					</div>
-					<div class="tool disabled">
+					<div class="tool disabled" id="tool-redo">
 						<img src="../img/redo.svg" alt="redo" />
 					</div>
 				</div>
 				<div class="tools-row justify-center">
-					<div class="tool">
+					<div class="tool" id="tool-clear">
 						<img src="../img/trash-black.svg" alt="clear" />
 					</div>
 				</div>

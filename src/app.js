@@ -23,7 +23,7 @@ global.cnf = {
 		fillColor: "#ffffff",
 		strokeColor: "#F40000",
 		toolWidth: 1,
-		toolbarPosition: {top: null, left: null},
+		toolbarPosition: {bottom: null, left: null},
 	},
 	atrecWebUrl: "https://www.atrec.app",
 	//user config. default config will be overridden by user config
