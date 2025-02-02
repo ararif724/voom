@@ -36,6 +36,10 @@
 		font-family: "Poppins";
 		overflow: hidden;
 	}
+	img {
+		user-drag: none;
+		-webkit-user-drag: none;
+	}
 	.title-bar,
 	.drag {
 		cursor: move;
@@ -93,5 +97,20 @@
 	}
 	.popup .popup-body {
 		@apply p-5 absolute text-center rounded-lg left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white;
+	}
+	.tools .tools-row {
+		@apply flex items-center gap-2;
+	}
+	.tools .tools-row .tool {
+		@apply cursor-pointer p-2 m-1 rounded-md hover:scale-110 duration-300;
+	}
+	.tools .tools-row .tool.active {
+		@apply bg-[#dbe8ff];
+	}
+	.tools .tools-row .tool.disabled {
+		@apply opacity-50 cursor-not-allowed;
+	}
+	.tools .tools-row .tool .pickr .pcr-button {
+		@apply w-6 h-6;
 	}
 }

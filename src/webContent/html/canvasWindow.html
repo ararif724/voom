@@ -2,21 +2,95 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';" />
-		<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self';" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';"
+		/>
+		<meta
+			http-equiv="X-Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';"
+		/>
 		<link rel="stylesheet" href="../css/app.min.css" />
+		<link rel="stylesheet" href="../css/nano.min.css" />
 		<link rel="stylesheet" href="../css/literallycanvas.css" />
 		<script src="../js/jquery-3.7.1.min.js"></script>
+		<script src="../js/pickr.min.js"></script>
 		<script src="../js/literallycanvas-core.js"></script>
 		<script src="../js/canvasWindow.js"></script>
 	</head>
 
-	<body>
-		<div class="literally core"></div>
-		<div class="tools">
-			<a id="tool-pencil">pencil</a>
-			|
-			<a id="tool-eraser">eraser</a>
+	<body class="relative">
+		<div id="canvas"></div>
+		<div id="canvas-tools" class="absolute z-10 w-fit">
+			<div class="rounded-t-lg bg-gradient-to-b from-[#7A3FF6] to-[#451AA0] p-3">
+				<ul class="flex items-center gap-4">
+					<li class="flex">
+						<button id="mover" class="cursor-move">
+							<img src="../img/move.svg" alt="move" />
+						</button>
+					</li>
+					<li class="flex">
+						<button class="duration-500 hover:scale-125 app-minimize">
+							<img src="../img/minimize.svg" alt="minimize" />
+						</button>
+					</li>
+					<li class="flex">
+						<button class="duration-500 hover:scale-125 app-close">
+							<img src="../img/close.svg" alt="close" />
+						</button>
+					</li>
+				</ul>
+			</div>
+			<div class="tools bg-white px-3 pb-4 rounded-b-lg">
+				<div class="tools-row">
+					<div class="tool">
+						<img src="../img/pencil-black.svg" alt="pencil" />
+					</div>
+					<div class="tool">
+						<img src="../img/line.svg" alt="line" />
+					</div>
+				</div>
+				<div class="tools-row">
+					<div class="tool">
+						<img src="../img/rectangle.svg" alt="rectangle" />
+					</div>
+					<div class="tool">
+						<img src="../img/text.svg" alt="text" />
+					</div>
+				</div>
+				<div class="tools-row">
+					<div class="tool">
+						<img src="../img/eraser.svg" alt="eraser" />
+					</div>
+					<div class="tool">
+						<img src="../img/stroke-size.svg" alt="stroke-size" />
+					</div>
+				</div>
+				<div class="tools-row">
+					<div class="text-center text-[#343434]">
+						Fill
+						<div class="tool">
+							<div class="color-picker" id="fill"></div>
+						</div>
+					</div>
+					<div class="tool">
+						<div class="color-picker" id="stroke"></div>
+					</div>
+				</div>
+				<div class="tools-row">
+					<div class="tool disabled">
+						<img src="../img/undo.svg" alt="undo" />
+					</div>
+					<div class="tool disabled">
+						<img src="../img/redo.svg" alt="redo" />
+					</div>
+				</div>
+				<div class="tools-row justify-center">
+					<div class="tool">
+						<img src="../img/trash-black.svg" alt="clear" />
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
