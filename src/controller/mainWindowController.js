@@ -28,7 +28,6 @@ module.exports = function () {
 			});
 
 			log.info("App main window open");
-			window.webContents.openDevTools();
 			global.mainWindow = window;
 		}
 	});
