@@ -105,7 +105,7 @@
 		@apply cursor-pointer p-2 m-1 rounded-md hover:scale-110 duration-300;
 	}
 	.tools .tools-row .tool.active {
-		@apply bg-[#dbe8ff];
+		@apply bg-[#E2D4FF];
 	}
 	.tools .tools-row .tool.disabled {
 		@apply opacity-50 cursor-not-allowed;

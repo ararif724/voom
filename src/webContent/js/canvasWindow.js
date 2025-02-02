@@ -10,21 +10,20 @@ $(document).ready(function () {
 		isDragging = false;
 
 	// Calculate initial position of toolbar
-	if (canvasConfig.toolbarPosition.bottom !== null && canvasConfig.toolbarPosition.left !== null) {
+	if (canvasConfig.toolbarPosition.top !== null && canvasConfig.toolbarPosition.left !== null) {
 		// Apply previous position
-		canvasTools.style.bottom = `${canvasConfig.toolbarPosition.bottom}px`;
+		canvasTools.style.top = `${canvasConfig.toolbarPosition.top}px`;
 		canvasTools.style.left = `${canvasConfig.toolbarPosition.left}px`;
-		canvasTools.style.top = ""; // Ensure top is cleared
 	} else {
 		// Apply default position
-		canvasTools.style.bottom = "100px";
+		canvasTools.style.top = `${(window.innerHeight - canvasTools.offsetHeight) / 2}px`;
 		canvasTools.style.left = "0";
 	}
 
 	mover.addEventListener("mousedown", (e) => {
 		isDragging = true;
 		offsetX = e.clientX - canvasTools.offsetLeft;
-		offsetY = e.clientY - (document.body.clientHeight - (canvasTools.offsetTop + canvasTools.offsetHeight));
+		offsetY = e.clientY - canvasTools.offsetTop;
 		mover.style.cursor = "grabbing";
 	});
 
@@ -36,18 +35,23 @@ $(document).ready(function () {
 
 			// Prevent going out of bounds
 			newX = Math.max(0, Math.min(document.body.clientWidth - canvasTools.offsetWidth, newX));
-			newY = Math.max(0, Math.min(document.body.clientHeight - canvasTools.offsetHeight, newY));
-
-			// Calculate bottom position with a minimum 100px space
-			let bottom = Math.max(100, document.body.clientHeight - (newY + canvasTools.offsetHeight));
+			// Here we deduct 50px to avoid toolbar going behind the OS bottom panel (start menu bar)
+			newY = Math.max(0, Math.min(document.body.clientHeight - canvasTools.offsetHeight - 50, newY));
 
 			// Update config
-			canvasConfig.toolbarPosition = { bottom: bottom, left: newX };
+			canvasConfig.toolbarPosition = { top: newY, left: newX };
 
 			// Apply new position
 			canvasTools.style.left = `${newX}px`;
-			canvasTools.style.bottom = `${bottom}px`;
-			canvasTools.style.top = ""; // Clear top to avoid conflicts
+			// if toolbar position is in upper part of the window then position it relatively to the top of the window
+			// if toolbar position is in lower part of the window then position it relatively to the bottom of the window
+			if (canvasConfig.toolbarPosition.top + canvasTools.offsetHeight / 2 < window.innerHeight / 2) {
+				canvasTools.style.top = `${newY}px`;
+				canvasTools.style.bottom = "";
+			} else {
+				canvasTools.style.top = "";
+				canvasTools.style.bottom = `${window.innerHeight - canvasTools.offsetHeight - newY}px`;
+			}
 		}
 	});
 
@@ -136,4 +140,15 @@ $(document).ready(function () {
 	});
 
 	$(".app-close").click(() => app.exitDrawMode(canvasConfig)); // exit draw mode
+	$(".app-minimize").click(function () {
+		$(".tools").slideUp();
+		$(this).hide();
+		$(".app-maximize").show();
+	});
+
+	$(".app-maximize").click(function () {
+		$(".tools").slideDown();
+		$(this).hide();
+		$(".app-minimize").show();
+	});
 });
