@@ -20,7 +20,7 @@ global.cnf = {
 	recordingWindowPosition: { x: null, y: null },
 	camWindowPosition: { x: null, y: null }, //only used for rounded camera window of screen-camera mode
 	canvasConfig: {
-		fillColor: "#ffffff",
+		fillColor: "#FFFFFF00",
 		strokeColor: "#F40000",
 		toolWidth: 1,
 		toolbarPosition: {top: null, left: null},
