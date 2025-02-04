@@ -142,12 +142,14 @@ $(document).ready(function () {
 	$(".app-close").click(() => app.exitDrawMode(canvasConfig)); // exit draw mode
 	$(".app-minimize").click(function () {
 		$(".tools").slideUp();
+		$(this).parents('.rounded-t-lg').addClass('rounded-lg');
 		$(this).hide();
 		$(".app-maximize").show();
 	});
 
 	$(".app-maximize").click(function () {
 		$(".tools").slideDown();
+		$(this).parents('.rounded-t-lg').removeClass('rounded-lg');
 		$(this).hide();
 		$(".app-minimize").show();
 	});

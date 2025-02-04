@@ -102,7 +102,10 @@
 		@apply flex items-center gap-2;
 	}
 	.tools .tools-row .tool {
-		@apply cursor-pointer p-2 m-1 rounded-md hover:scale-110 duration-300;
+		@apply cursor-pointer p-2 m-1 rounded-md relative;
+	}
+	.tools .tools-row .tool > img{
+		@apply hover:scale-110 duration-300;
 	}
 	.tools .tools-row .tool.active {
 		@apply bg-[#E2D4FF];
