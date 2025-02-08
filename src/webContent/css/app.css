@@ -98,13 +98,16 @@
 	.popup .popup-body {
 		@apply p-5 absolute text-center rounded-lg left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white;
 	}
+	.tools {
+		@apply rounded-b-lg bg-[#F8F5FF] px-3 pb-4;
+	}
 	.tools .tools-row {
-		@apply flex items-center gap-2;
+		@apply flex items-center gap-2 relative;
 	}
 	.tools .tools-row .tool {
-		@apply cursor-pointer p-2 m-1 rounded-md relative;
+		@apply cursor-pointer p-2 m-1 w-10 rounded-md relative;
 	}
-	.tools .tools-row .tool > img{
+	.tools .tools-row .tool > img {
 		@apply hover:scale-110 duration-300;
 	}
 	.tools .tools-row .tool.active {
@@ -115,5 +118,11 @@
 	}
 	.tools .tools-row .tool .color-picker {
 		@apply w-6 h-6 border-[#A6A6A6] overflow-hidden rounded-[4px] border-[1px];
+	}
+	.tools .tools-row .sub-tools {
+		@apply flex bg-[#F8F5FF] border-[#bdbdbd] border top-0 bottom-0 absolute left-full ml-3 rounded-r-md;
+	}
+	.tools .tools-row .sub-tools .tool.active {
+		@apply hidden;
 	}
 }

@@ -21,7 +21,7 @@
 
 	<body class="relative">
 		<div id="canvas"></div>
-		<div id="canvas-tools" class="absolute z-10 w-[128px] shadow-[0_0_2px_0_gray]">
+		<div id="canvas-tools" class="absolute z-10 w-[128px] rounded-lg shadow-[0_0_2px_0_gray]">
 			<div class="bg-gradient-to-b rounded-t-lg from-[#7A3FF6] to-[#451AA0] p-3">
 				<ul class="flex items-center gap-4">
 					<li class="flex">
@@ -44,20 +44,28 @@
 					</li>
 				</ul>
 			</div>
-			<div class="tools rounded-b-lg bg-[#F8F5FF] px-3 pb-4">
+			<div class="tools">
 				<div class="tools-row">
 					<div class="tool" data-lc-tool="Pencil">
 						<img src="../img/pencil-black.svg" alt="pencil" />
 					</div>
-					<div class="tool" data-lc-tool="Line" data-lc-options='{"isDashed": true, "hasEndArrow": true}'>
+					<div class="tool" data-lc-tool="Line">
 						<img src="../img/line.svg" alt="line" />
-						<div class="dropdown">
-							<img class="w-2 absolute right-0" src="../img/dropdown.svg" alt=">" />
-							<div class="dropdown-items bg-[#F8F5FF] top-0 bottom-0 absolute left-full">
-								<div class="tool" data-lc-tool="Rectangle">
-									<img src="../img/rectangle.svg" alt="rectangle" />
-								</div>
-							</div>
+						<img class="w-2 absolute right-0" src="../img/dropdown.svg" alt=">" />
+					</div>
+
+					<div class="sub-tools">
+						<div class="tool active" data-lc-tool="Line">
+							<img src="../img/line.svg" alt="line" />
+						</div>
+						<div class="tool" data-lc-tool="Line" data-lc-options='{"hasEndArrow": true}'>
+							<img src="../img/line-arrow.svg" alt="line arrow" />
+						</div>
+						<div class="tool" data-lc-tool="Line" data-lc-options='{"isDashed": true}'>
+							<img src="../img/line-dashed.svg" alt="line dashed" />
+						</div>
+						<div class="tool" data-lc-tool="Line" data-lc-options='{"isDashed": true, "hasEndArrow": true}'>
+							<img src="../img/line-dashed-arrow.svg" alt="line dashed arrow" />
 						</div>
 					</div>
 				</div>
@@ -78,16 +86,20 @@
 					</div>
 				</div>
 				<div class="tools-row">
-					<div class="text-center text-[#343434]">
-						<div class="tool">
+					<div>
+						<p class="text-center pt-2 text-[#343434] text-[10px]">Fill</p>
+						<div class="tool !pt-0">
 							<div class="color-picker" id="fill">
 								<div class="pickr"></div>
 							</div>
 						</div>
 					</div>
-					<div class="tool">
-						<div class="color-picker" id="stroke">
-							<div class="pickr"></div>
+					<div>
+						<p class="text-center pt-2 text-[#343434] text-[10px]">Stroke</p>
+						<div class="tool !pt-0">
+							<div class="color-picker" id="stroke">
+								<div class="pickr"></div>
+							</div>
 						</div>
 					</div>
 				</div>
