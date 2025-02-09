@@ -6,7 +6,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "electron-forge start",
-    "css": "tailwindcss -i ./src/webContent/css/app.css -o ./src/webContent/css/app.min.css --watch --minify",
+    "tailwind": "tailwindcss -i ./src/webContent/css/app.css -o ./src/webContent/css/app.min.css --watch --minify",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",

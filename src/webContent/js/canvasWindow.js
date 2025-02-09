@@ -65,15 +65,24 @@ $(document).ready(function () {
 		secondaryColor: canvasConfig.fillColor,
 	});
 
-	$("#tool-undo").on("click", function () {
+	function setTool(tool, options = {}) {
+		const lcTool = new LC.tools[tool](literallyCanvas);
+		for (const [key, value] of Object.entries(options)) {
+			lcTool[key] = value;
+		}
+
+		literallyCanvas.setTool(lcTool);
+	}
+
+	$("#tool-undo").click(function () {
 		literallyCanvas.undo();
 	});
 
-	$("#tool-redo").on("click", function () {
+	$("#tool-redo").click(function () {
 		literallyCanvas.redo();
 	});
 
-	$("#tool-clear").on("click", function () {
+	$("#tool-clear").click(function () {
 		literallyCanvas.clear();
 	});
 
@@ -90,24 +99,47 @@ $(document).ready(function () {
 		}
 	});
 
-	$(".tools .tool").on("click", function () {
+	$(".tools .tool").click(function () {
 		const tool = $(this).data("lc-tool");
 		if (typeof LC.tools[tool] !== "undefined") {
 			$(".tools .tool").removeClass("active");
 			$(this).addClass("active");
-
-			const lcTool = new LC.tools[tool](literallyCanvas);
-
-			if ($(this).data("lc-options") !== undefined) {
-				console.log($(this).data("lc-options"));
-				const options = $(this).data("lc-options");
-				for (const [key, value] of Object.entries(options)) {
-					lcTool[key] = value;
-				}
-			}
-
-			literallyCanvas.setTool(lcTool);
+			setTool(tool, $(this).data("lc-options") ?? {});
 		}
+	});
+
+	$(`.sub-tools`).each(function () {
+		$(this).css({ width: $(this).prop("offsetWidth") });
+	});
+
+	$(`.sub-tools`).addClass("!w-0 duration-300");
+
+	$(document).click(function (e) {
+		$(`.sub-tools`).addClass("!w-0");
+	});
+
+	$(".tools .tool .show-sub-tools").click(function (e) {
+		e.stopPropagation();
+		const subTools = $(this).data("show-sub-tools");
+		if ($(`.sub-tools[data-sub-tools-id="${subTools}"]`).hasClass("!w-0")) {
+			$(`.sub-tools`).addClass("!w-0");
+			$(`.sub-tools[data-sub-tools-id="${subTools}"]`).removeClass("!w-0");
+		} else {
+			$(`.sub-tools`).addClass("!w-0");
+		}
+	});
+
+	$(".tools .sub-tools .sub-tool").click(function (e) {
+		e.stopPropagation();
+		$(".tools .tool").removeClass("active");
+		$(this).addClass("active").siblings().removeClass("active");
+		const subTools = $(this).parents(".sub-tools").data("sub-tools-id");
+		const tool = $(`.tools .tool img[data-show-sub-tools="${subTools}"]`).parents(".tool");
+		tool.data("lc-tool", $(this).data("lc-tool"));
+		tool.data("lc-options", $(this).data("lc-options") ?? {});
+		tool.children("img:not(.show-sub-tools)").attr("src", $(this).children("img").attr("src"));
+		tool.addClass("active");
+		setTool($(this).data("lc-tool"), $(this).data("lc-options") ?? {});
 	});
 
 	$(".tools .tool:first").trigger("click");
@@ -142,14 +174,14 @@ $(document).ready(function () {
 	$(".app-close").click(() => app.exitDrawMode(canvasConfig)); // exit draw mode
 	$(".app-minimize").click(function () {
 		$(".tools").slideUp();
-		$(this).parents('.rounded-t-lg').addClass('rounded-lg');
+		$(this).parents(".rounded-t-lg").addClass("rounded-lg");
 		$(this).hide();
 		$(".app-maximize").show();
 	});
 
 	$(".app-maximize").click(function () {
 		$(".tools").slideDown();
-		$(this).parents('.rounded-t-lg').removeClass('rounded-lg');
+		$(this).parents(".rounded-t-lg").removeClass("rounded-lg");
 		$(this).hide();
 		$(".app-minimize").show();
 	});

@@ -51,20 +51,20 @@
 					</div>
 					<div class="tool" data-lc-tool="Line">
 						<img src="../img/line.svg" alt="line" />
-						<img class="w-2 absolute right-0" src="../img/dropdown.svg" alt=">" />
+						<img class="show-sub-tools w-2 absolute right-0" data-show-sub-tools="Line" src="../img/dropdown.svg" alt=">" />
 					</div>
 
-					<div class="sub-tools">
-						<div class="tool active" data-lc-tool="Line">
+					<div class="sub-tools" data-sub-tools-id="Line">
+						<div class="sub-tool active" data-lc-tool="Line">
 							<img src="../img/line.svg" alt="line" />
 						</div>
-						<div class="tool" data-lc-tool="Line" data-lc-options='{"hasEndArrow": true}'>
+						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"hasEndArrow": true}'>
 							<img src="../img/line-arrow.svg" alt="line arrow" />
 						</div>
-						<div class="tool" data-lc-tool="Line" data-lc-options='{"isDashed": true}'>
+						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"isDashed": true}'>
 							<img src="../img/line-dashed.svg" alt="line dashed" />
 						</div>
-						<div class="tool" data-lc-tool="Line" data-lc-options='{"isDashed": true, "hasEndArrow": true}'>
+						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"isDashed": true, "hasEndArrow": true}'>
 							<img src="../img/line-dashed-arrow.svg" alt="line dashed arrow" />
 						</div>
 					</div>
@@ -72,17 +72,32 @@
 				<div class="tools-row">
 					<div class="tool" data-lc-tool="Rectangle">
 						<img src="../img/rectangle.svg" alt="rectangle" />
+						<img class="show-sub-tools w-2 absolute right-0" data-show-sub-tools="Rectangle" src="../img/dropdown.svg" alt=">" />
 					</div>
 					<div class="tool" data-lc-tool="Text">
 						<img src="../img/text.svg" alt="text" />
+						<img class="show-sub-tools w-2 absolute right-0" data-show-sub-tools="Text" src="../img/dropdown.svg" alt=">" />
+					</div>
+
+					<div class="sub-tools" data-sub-tools-id="Rectangle">
+						<div class="sub-tool active" data-lc-tool="Rectangle">
+							<img src="../img/rectangle.svg" alt="rectangle" />
+						</div>
+						<div class="sub-tool" data-lc-tool="Ellipse">
+							<img src="../img/ellipse.svg" alt="ellipse" />
+						</div>
+						<div class="sub-tool" data-lc-tool="Polygon">
+							<img src="../img/polygon.svg" alt="polygon" />
+						</div>
 					</div>
 				</div>
 				<div class="tools-row">
 					<div class="tool" data-lc-tool="Eraser">
 						<img src="../img/eraser.svg" alt="eraser" />
 					</div>
-					<div class="tool">
-						<img src="../img/stroke-size.svg" alt="stroke-size" />
+					<div class="tool !px-0">
+						<div class="stroke-size">50px</div>
+						<img class="show-sub-tools w-2 absolute right-0" data-show-sub-tools="stroke-size" src="../img/dropdown.svg" alt=">" />
 					</div>
 				</div>
 				<div class="tools-row">

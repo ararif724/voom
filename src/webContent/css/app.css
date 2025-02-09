@@ -107,10 +107,11 @@
 	.tools .tools-row .tool {
 		@apply cursor-pointer p-2 m-1 w-10 rounded-md relative;
 	}
-	.tools .tools-row .tool > img {
+	.tools .tools-row .tool img:not(.show-sub-tools) {
 		@apply hover:scale-110 duration-300;
 	}
-	.tools .tools-row .tool.active {
+	.tools .tools-row .tool.active,
+	.tools .tools-row .sub-tools .sub-tool.active {
 		@apply bg-[#E2D4FF];
 	}
 	.tools .tools-row .tool.disabled {
@@ -119,10 +120,16 @@
 	.tools .tools-row .tool .color-picker {
 		@apply w-6 h-6 border-[#A6A6A6] overflow-hidden rounded-[4px] border-[1px];
 	}
-	.tools .tools-row .sub-tools {
-		@apply flex bg-[#F8F5FF] border-[#bdbdbd] border top-0 bottom-0 absolute left-full ml-3 rounded-r-md;
+	.tools .tools-row .tool .stroke-size {
+		@apply text-xs text-center font-medium;
 	}
-	.tools .tools-row .sub-tools .tool.active {
-		@apply hidden;
+	.tools .tools-row .sub-tools {
+		@apply flex bg-[#F8F5FF] border-[#bdbdbd] border border-l-0 top-0 bottom-0 absolute left-full ml-3 rounded-r-md overflow-hidden;
+	}
+	.tools .tools-row .sub-tools .sub-tool {
+		@apply cursor-pointer p-2 m-1 w-10;
+	}
+	.tools .tools-row .sub-tools .sub-tool img {
+		@apply max-w-none;
 	}
 }
