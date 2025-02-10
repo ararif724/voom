@@ -4,6 +4,13 @@ $(document).ready(function () {
 
 	const canvasTools = document.getElementById("canvas-tools");
 	const mover = document.getElementById("mover");
+	const lcTools = {}; // keeps tools instances
+	/**
+	 * Text tool font options.
+	 * Don't change the order
+	 * It will converted to css font rule. Example: "normal normal 16px sans-serif"
+	 */
+	const lcFont = { fontStyle: "normal", fontWeight: "normal", fontSize: "16px", fontFamily: "sans-serif" };
 
 	let offsetX,
 		offsetY,
@@ -66,12 +73,24 @@ $(document).ready(function () {
 	});
 
 	function setTool(tool, options = {}) {
-		const lcTool = new LC.tools[tool](literallyCanvas);
-		for (const [key, value] of Object.entries(options)) {
-			lcTool[key] = value;
+		if (typeof lcTools[tool] == "undefined") {
+			lcTools[tool] = new LC.tools[tool](literallyCanvas);
+			if (tool == "Text") {
+				setFont();
+			}
 		}
 
-		literallyCanvas.setTool(lcTool);
+		for (const [key, value] of Object.entries(options)) {
+			lcTools[tool][key] = value; // set tool options. Like dashed for Line tool
+		}
+
+		literallyCanvas.setTool(lcTools[tool]);
+	}
+
+	function setFont() {
+		if (typeof lcTools.Text != "undefined") {
+			lcTools.Text.font = Object.values(lcFont).join(" "); // convert font object to css rule like "normal normal 16px sans-serif"
+		}
 	}
 
 	$("#tool-undo").click(function () {
@@ -99,6 +118,15 @@ $(document).ready(function () {
 		}
 	});
 
+	literallyCanvas.on("toolChange", function () {
+		if (literallyCanvas.tool.name == "Text") {
+			$("#stroke-and-text-size").val(parseInt(lcFont.fontSize));
+		} else {
+			$("#stroke-and-text-size").val(literallyCanvas.tool.strokeWidth);
+		}
+		$("#stroke-and-text-size").trigger("input");
+	});
+
 	$(".tools .tool").click(function () {
 		const tool = $(this).data("lc-tool");
 		if (typeof LC.tools[tool] !== "undefined") {
@@ -110,27 +138,27 @@ $(document).ready(function () {
 
 	$(`.sub-tools`).each(function () {
 		$(this).css({ width: $(this).prop("offsetWidth") });
+		$(this).addClass("inactive");
 	});
 
-	$(`.sub-tools`).addClass("!w-0 duration-300");
+	$(`.sub-tools`).addClass("duration-300");
 
 	$(document).click(function (e) {
-		$(`.sub-tools`).addClass("!w-0");
+		$(`.sub-tools`).addClass("inactive");
 	});
 
 	$(".tools .tool .show-sub-tools").click(function (e) {
 		e.stopPropagation();
 		const subTools = $(this).data("show-sub-tools");
-		if ($(`.sub-tools[data-sub-tools-id="${subTools}"]`).hasClass("!w-0")) {
-			$(`.sub-tools`).addClass("!w-0");
-			$(`.sub-tools[data-sub-tools-id="${subTools}"]`).removeClass("!w-0");
+		if ($(`.sub-tools[data-sub-tools-id="${subTools}"]`).hasClass("inactive")) {
+			$(`.sub-tools`).addClass("inactive");
+			$(`.sub-tools[data-sub-tools-id="${subTools}"]`).removeClass("inactive");
 		} else {
-			$(`.sub-tools`).addClass("!w-0");
+			$(`.sub-tools`).addClass("inactive");
 		}
 	});
 
-	$(".tools .sub-tools .sub-tool").click(function (e) {
-		e.stopPropagation();
+	$(".tools .sub-tools .sub-tool").click(function () {
 		$(".tools .tool").removeClass("active");
 		$(this).addClass("active").siblings().removeClass("active");
 		const subTools = $(this).parents(".sub-tools").data("sub-tools-id");
@@ -142,7 +170,32 @@ $(document).ready(function () {
 		setTool($(this).data("lc-tool"), $(this).data("lc-options") ?? {});
 	});
 
+	$(".tools .sub-tools").click(function (e) {
+		e.stopPropagation();
+	});
+
 	$(".tools .tool:first").trigger("click");
+
+	$("#stroke-and-text-size").on("input", function () {
+		if ($(this).val() != "") {
+			let size = parseInt($(this).val());
+
+			if (size < 1) {
+				size = 1;
+			} else if (size > 999) {
+				size = 999;
+			}
+
+			if (literallyCanvas.tool.name == "Text") {
+				lcFont.fontSize = `${size}px`;
+				setFont();
+			} else {
+				literallyCanvas.tool.strokeWidth = size;
+			}
+			$(".stroke-and-text-size").text(`${size}px`);
+			$(this).val(size);
+		}
+	});
 
 	$(".color-picker").each(function () {
 		const pickr = Pickr.create({

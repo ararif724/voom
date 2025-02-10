@@ -55,13 +55,13 @@
 					</div>
 
 					<div class="sub-tools" data-sub-tools-id="Line">
-						<div class="sub-tool active" data-lc-tool="Line">
+						<div class="sub-tool active" data-lc-tool="Line" data-lc-options='{"isDashed": false, "hasEndArrow": false}'>
 							<img src="../img/line.svg" alt="line" />
 						</div>
-						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"hasEndArrow": true}'>
+						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"isDashed": false, "hasEndArrow": true}'>
 							<img src="../img/line-arrow.svg" alt="line arrow" />
 						</div>
-						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"isDashed": true}'>
+						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"isDashed": true,  "hasEndArrow": false}'>
 							<img src="../img/line-dashed.svg" alt="line dashed" />
 						</div>
 						<div class="sub-tool" data-lc-tool="Line" data-lc-options='{"isDashed": true, "hasEndArrow": true}'>
@@ -96,8 +96,17 @@
 						<img src="../img/eraser.svg" alt="eraser" />
 					</div>
 					<div class="tool !px-0">
-						<div class="stroke-size">50px</div>
-						<img class="show-sub-tools w-2 absolute right-0" data-show-sub-tools="stroke-size" src="../img/dropdown.svg" alt=">" />
+						<div class="stroke-and-text-size">5px</div>
+						<img class="show-sub-tools w-2 absolute right-0" data-show-sub-tools="stroke-and-text-size" src="../img/dropdown.svg" alt=">" />
+					</div>
+
+					<div class="sub-tools" data-sub-tools-id="stroke-and-text-size">
+						<input
+							type="number"
+							id="stroke-and-text-size"
+							value="5"
+							class="w-16 text-center border-0 focus:ring-0 focus:outline-none bg-transparent"
+						/>
 					</div>
 				</div>
 				<div class="tools-row">
