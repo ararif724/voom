@@ -89,6 +89,17 @@ $(document).ready(function () {
 
 	function setFont() {
 		if (typeof lcTools.Text != "undefined") {
+			const textOption = $(".tools .sub-tools .sub-tool.text-option");
+
+			textOption.each(function () {
+				const option = $(this).data("lc-options");
+				if (option == "bold") {
+					lcFont.fontWeight = $(this).hasClass("active") ? "bold" : "normal";
+				} else if (option == "italic") {
+					lcFont.fontStyle = $(this).hasClass("active") ? "italic" : "normal";
+				}
+			});
+
 			lcTools.Text.font = Object.values(lcFont).join(" "); // convert font object to css rule like "normal normal 16px sans-serif"
 		}
 	}
@@ -158,7 +169,7 @@ $(document).ready(function () {
 		}
 	});
 
-	$(".tools .sub-tools .sub-tool").click(function () {
+	$(".tools .sub-tools .sub-tool:not(.text-option)").click(function () {
 		$(".tools .tool").removeClass("active");
 		$(this).addClass("active").siblings().removeClass("active");
 		const subTools = $(this).parents(".sub-tools").data("sub-tools-id");
@@ -168,6 +179,11 @@ $(document).ready(function () {
 		tool.children("img:not(.show-sub-tools)").attr("src", $(this).children("img").attr("src"));
 		tool.addClass("active");
 		setTool($(this).data("lc-tool"), $(this).data("lc-options") ?? {});
+	});
+
+	$(".tools .sub-tools .sub-tool.text-option").click(function () {
+		$(this).toggleClass("active");
+		setFont();
 	});
 
 	$(".tools .sub-tools").click(function (e) {

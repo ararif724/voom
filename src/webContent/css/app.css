@@ -134,7 +134,7 @@
 		@apply !w-0 invisible;
 	}
 	.tools .tools-row .sub-tools .sub-tool {
-		@apply p-2 m-1 w-10;
+		@apply p-2 m-1 w-10 rounded-md;
 	}
 	.tools .tools-row .sub-tools .sub-tool img {
 		@apply max-w-none;
