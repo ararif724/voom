@@ -73,7 +73,7 @@ module.exports = function () {
 			audioInDeviceId: cnf.audioInDeviceId,
 			googleApiRefreshToken: cnf.googleApiRefreshToken,
 			atrecWebApiToken: cnf.atrecWebApiToken,
-			atrecWebUrl,
+			atrecWebUrl: cnf.atrecWebUrl,
 		});
 
 		window.on("move", function () {

@@ -3,8 +3,8 @@ const { quitApp } = require("../helper");
 
 module.exports = function () {
 	//canvas window. Will open by clicking pencil icon
-	ipcMain.on("canvasWindow:enterDrawMode", function () {
-		//recordingWindow.hide();
+	ipcMain.handle("canvasWindow:enterDrawMode", function () {
+		recordingWindow.hide(); //hide recording window
 
 		const window = new BrowserWindow({
 			frame: false,
@@ -12,7 +12,7 @@ module.exports = function () {
 			transparent: true,
 			fullscreenable: false,
 			resizable: false,
-			//alwaysOnTop: true,
+			alwaysOnTop: true,
 			minimizable: false,
 			webPreferences: {
 				preload: preloadScriptPath + "/canvasWindowPreload.js",
@@ -20,9 +20,10 @@ module.exports = function () {
 		});
 
 		window.loadFile(webContentPath + "/html/canvasWindow.html");
-window.webContents.openDevTools();
+
 		window.on("close", function () {
-			quitApp();
+			canvasWindow.destroy();
+			recordingWindow.show();
 		});
 
 		window.webContents.send("canvasConfig", cnf.canvasConfig);
@@ -32,7 +33,6 @@ window.webContents.openDevTools();
 
 	ipcMain.handle("canvasWindow:exitDrawMode", function (e, canvasConfig) {
 		cnf.canvasConfig = canvasConfig;
-		canvasWindow.destroy();
-		//recordingWindow.show();
+		canvasWindow.close();
 	});
 };

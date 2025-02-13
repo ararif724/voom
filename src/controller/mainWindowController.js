@@ -23,8 +23,8 @@ module.exports = function () {
 				recordingMode: cnf.recordingMode,
 				videoInDeviceId: cnf.videoInDeviceId,
 				audioInDeviceId: cnf.audioInDeviceId,
+				atrecWebUrl: cnf.atrecWebUrl,
 				notSignedIn: typeof cnf.googleApiRefreshToken == "undefined" || typeof cnf.atrecWebApiToken == "undefined",
-				atrecWebUrl,
 			});
 
 			log.info("App main window open");

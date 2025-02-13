@@ -26,6 +26,13 @@ $(function () {
 		}
 	});
 
+	// hide select box outside click
+	$(window).click(function (e) {
+		if (!$(e.target).parents(".select-box").length) {
+			$(".select-options-list").addClass("hidden");
+		}
+	});
+
 	//select webcam or microphone
 	$(".select-options-list ul").on("click", "li", function () {
 		$(this).parents(".select-box").data("value", $(this).data("value")).find(".selected-option-label").text($(this).text());
@@ -42,7 +49,7 @@ $(function () {
 	});
 
 	//open in browser
-	$("a").click(function (e) {
+	$(document).on("click", "a", function (e) {
 		e.preventDefault();
 		app.openInBrowser($(this).attr("href"));
 	});

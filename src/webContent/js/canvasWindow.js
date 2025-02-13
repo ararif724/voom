@@ -1,10 +1,10 @@
-let literallyCanvas;
 $(document).ready(function () {
 	let canvasConfig = { ...app.canvasConfig };
 
 	const canvasTools = document.getElementById("canvas-tools");
 	const mover = document.getElementById("mover");
 	const lcTools = {}; // keeps tools instances
+
 	/**
 	 * Text tool font options.
 	 * Don't change the order
@@ -67,7 +67,7 @@ $(document).ready(function () {
 		mover.style.cursor = "grab";
 	});
 
-	literallyCanvas = LC.init(document.querySelector("#canvas"), {
+	const literallyCanvas = LC.init(document.querySelector("#canvas"), {
 		primaryColor: canvasConfig.strokeColor,
 		secondaryColor: canvasConfig.fillColor,
 	});
@@ -87,6 +87,9 @@ $(document).ready(function () {
 		literallyCanvas.setTool(lcTools[tool]);
 	}
 
+	/**
+	 * Set text tool font
+	 */
 	function setFont() {
 		if (typeof lcTools.Text != "undefined") {
 			const textOption = $(".tools .sub-tools .sub-tool.text-option");
@@ -159,7 +162,7 @@ $(document).ready(function () {
 	});
 
 	$(".tools .tool .show-sub-tools").click(function (e) {
-		e.stopPropagation();
+		e.stopPropagation(); // stop event propagation to prevent tool become active when click on show sub tools arrow
 		const subTools = $(this).data("show-sub-tools");
 		if ($(`.sub-tools[data-sub-tools-id="${subTools}"]`).hasClass("inactive")) {
 			$(`.sub-tools`).addClass("inactive");
@@ -172,12 +175,15 @@ $(document).ready(function () {
 	$(".tools .sub-tools .sub-tool:not(.text-option)").click(function () {
 		$(".tools .tool").removeClass("active");
 		$(this).addClass("active").siblings().removeClass("active");
+
+		// Showing selected sub tool in main tool and activate the tool
 		const subTools = $(this).parents(".sub-tools").data("sub-tools-id");
 		const tool = $(`.tools .tool img[data-show-sub-tools="${subTools}"]`).parents(".tool");
 		tool.data("lc-tool", $(this).data("lc-tool"));
 		tool.data("lc-options", $(this).data("lc-options") ?? {});
 		tool.children("img:not(.show-sub-tools)").attr("src", $(this).children("img").attr("src"));
 		tool.addClass("active");
+
 		setTool($(this).data("lc-tool"), $(this).data("lc-options") ?? {});
 	});
 
@@ -187,10 +193,10 @@ $(document).ready(function () {
 	});
 
 	$(".tools .sub-tools").click(function (e) {
-		e.stopPropagation();
+		e.stopPropagation(); // stop event propagation to prevent sub tools from closing on click on sub tool and it's container
 	});
 
-	$(".tools .tool:first").trigger("click");
+	$(".tools .tool:first").trigger("click"); // active the first tool initially
 
 	$("#stroke-and-text-size").on("input", function () {
 		if ($(this).val() != "") {
@@ -232,10 +238,10 @@ $(document).ready(function () {
 		pickr.on("save", (color) => {
 			if (this.id == "fill") {
 				canvasConfig.fillColor = color.toHEXA().toString();
-				literallyCanvas.setColor("secondary", canvasConfig.fillColor);
+				literallyCanvas.setColor("secondary", canvasConfig.fillColor); // update color on literally canvas
 			} else {
 				canvasConfig.strokeColor = color.toHEXA().toString();
-				literallyCanvas.setColor("primary", canvasConfig.strokeColor);
+				literallyCanvas.setColor("primary", canvasConfig.strokeColor); // update color on literally canvas
 			}
 		});
 	});

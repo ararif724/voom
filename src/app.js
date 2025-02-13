@@ -23,14 +23,13 @@ global.cnf = {
 		fillColor: "#FFFFFF00",
 		strokeColor: "#F40000",
 		toolWidth: 1,
-		toolbarPosition: {top: null, left: null},
+		toolbarPosition: { top: null, left: null },
 	},
 	atrecWebUrl: "https://www.atrec.app",
 	//user config. default config will be overridden by user config
 	...getAllCnf(),
 };
 
-global.atrecWebUrl = cnf?.atrecWebUrl;
 global.preloadScriptPath = path.join(__dirname, "/preloadScript");
 global.webContentPath = path.join(__dirname, "/webContent");
 
@@ -62,7 +61,7 @@ app.whenReady().then(() => {
 
 	log.info("App ready");
 
-	ipcMain.emit("canvasWindow:enterDrawMode");
+	ipcMain.emit("mainWindow:open");
 });
 
 app.on("window-all-closed", () => {
