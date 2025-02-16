@@ -1,5 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
-const { quitApp } = require("../helper");
+const { BrowserWindow, ipcMain } = require("electron");
 
 module.exports = function () {
 	//canvas window. Will open by clicking pencil icon

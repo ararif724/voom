@@ -15,35 +15,7 @@ module.exports = function () {
 			cnf.screenRecordSourceId = screenRecordSource[0].id;
 		}
 
-		ipcMain.emit("recordingWindow:open");
-		mainWindow.destroy();
-	});
-
-	ipcMain.handle("recording:stop", function (e, showLoader = false, showSignIn = false) {
-		ipcMain.emit("mainWindow:open");
-		if (showSignIn) {
-			mainWindow.webContents.executeJavaScript("showSignIn();");
-		}
-
-		if (typeof camWindow != "undefined") {
-			camWindow.destroy();
-		}
-
-		if (showLoader) {
-			recordingWindow.hide();
-			mainWindow.webContents.executeJavaScript("showLoader();");
-		} else {
-			recordingWindow.destroy();
-		}
-	});
-
-	ipcMain.handle("recording:showVideoUrl", function (e, videoUrl) {
-		mainWindow.focus();
-		mainWindow.webContents.executeJavaScript(`hideLoader(); showVideoUrl('${videoUrl}');`);
-		recordingWindow.destroy();
-	});
-
-	ipcMain.on("recordingWindow:open", function () {
+		// Create recording window
 		if (cnf.recordingWindowPosition.x == null) {
 			cnf.recordingWindowPosition.x = (cnf.displaySize.width - recordingControlPanelSize.width) / 2;
 			cnf.recordingWindowPosition.y = cnf.displaySize.height - 200;
@@ -77,6 +49,9 @@ module.exports = function () {
 		});
 
 		window.on("move", function () {
+			// track recording window position.
+			// will save it to user config upon close the app.
+			// user will got the recording window at the same position next time
 			const bounds = window.getBounds();
 			cnf.recordingWindowPosition.x = bounds.x;
 			cnf.recordingWindowPosition.y = bounds.y;
@@ -88,5 +63,33 @@ module.exports = function () {
 			// open cam window if recording mode is not screen (screen = only screen recording)
 			ipcMain.emit("camWindow:open");
 		}
+
+		mainWindow.destroy(); // Destroy main window after creating recording window
+	});
+
+	ipcMain.handle("recording:stop", function (e, showLoader = false, showSignIn = false) {
+		ipcMain.emit("mainWindow:open");
+		if (showSignIn) {
+			// If google drive API request returns unauthorized error, show sign in popup
+			// Triggered from src/webContent/js/recordingWindow.js
+			mainWindow.webContents.executeJavaScript("showSignIn();");
+		}
+
+		if (typeof camWindow != "undefined") {
+			camWindow.destroy();
+		}
+
+		if (showLoader) {
+			recordingWindow.hide();
+			mainWindow.webContents.executeJavaScript("showLoader();");
+		} else {
+			recordingWindow.destroy();
+		}
+	});
+
+	ipcMain.handle("recording:showVideoUrl", function (e, videoUrl) {
+		mainWindow.focus();
+		mainWindow.webContents.executeJavaScript(`hideLoader(); showVideoUrl('${videoUrl}');`);
+		recordingWindow.destroy();
 	});
 };
