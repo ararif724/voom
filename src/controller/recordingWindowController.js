@@ -1,7 +1,7 @@
 const { BrowserWindow, ipcMain, desktopCapturer } = require("electron");
 
 module.exports = function () {
-	const recordingControlPanelSize = { width: 270, height: 58 };
+	const recordingControlPanelSize = { width: 270, height: 58 }; // Recording control panel size
 
 	ipcMain.handle("recording:start", async function (event, recordingMode, videoInDeviceId, audioInDeviceId) {
 		cnf.recordingMode = recordingMode;
@@ -9,6 +9,7 @@ module.exports = function () {
 		cnf.audioInDeviceId = audioInDeviceId;
 
 		if (cnf.recordingMode != "camera") {
+			// get screen record source if recording mode is not only camera
 			const screenRecordSource = await desktopCapturer.getSources({
 				types: ["screen"],
 			});
@@ -80,6 +81,9 @@ module.exports = function () {
 		}
 
 		if (showLoader) {
+			// Show loader will be true if the record upload is in progress
+			// We just hide the recording window because recording window is uploading the video
+			// Later we destroy the recording window in showVideoUrl
 			recordingWindow.hide();
 			mainWindow.webContents.executeJavaScript("showLoader();");
 		} else {

@@ -2,6 +2,14 @@ const { BrowserWindow, ipcMain } = require("electron");
 
 module.exports = function () {
 	ipcMain.on("mainWindow:open", function () {
+		if (typeof mainWindow != "undefined" && !mainWindow?.isDestroyed()) {
+			// Focus main window if it is already open
+			// This check required because from recordingWindowController recording:stop event could emit mainWindow:open multiple times
+			// Ex: recordingWindowController recording:stop event fires for both show loading popup and show success (video url) popup
+			mainWindow.focus();
+			return;
+		}
+
 		const window = new BrowserWindow({
 			frame: false,
 			transparent: true,
